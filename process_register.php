@@ -15,12 +15,13 @@
     </head>
 <h1>*****</h1>
 <?php
+
 include "header.inc.php";
 
 define("DBHOST", "localhost");
-define("DBNAME", "2103");
+define("DBNAME", "school");
 define("DBUSER", "root");
-define("DBPASS", "");
+define("DBPASS", "sceptile101");
 
 
 $fname = $lname = $email = $pwd = $cpwd = $errorMsg = "";
@@ -128,6 +129,7 @@ if ($success)
 }
 else            
 {
+    saveMemberToDB();
     echo '<section class="container"><hr>';
     echo '<h1>Oops!</h1>';
     echo '<h2>The following errors were detected:</h2>';
@@ -152,22 +154,41 @@ include "footer.inc.php";
 function saveMemberToDB(){
     global $fname, $lname, $email, $pwd, $errorMsg, $success;
     // Create connection
-    $conn = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
-    //Check connection
-    if ($conn->connect_error)
-    {$errorMsg = "Connection failed: " . $conn->connect_error;
-    $success = false;
-    }
-    else
-    {
-    $sql = "INSERT INTO userlogin (firstname, lastname, email, password)";$sql .= " VALUES('$fname', '$lname', '$email', '$pwd')";
-    // Execute the queryif (!$conn->query($sql))   
-    if (!$conn->query($sql))
-    {
-        $errorMsg = "Database error: " . $conn->error;
-        $success = false;
-        
-    }   
-  }
-  $conn->close();
+    $manager = new MongoDB\Driver\Manager(
+    'mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
+    
+    $command = new MongoDB\Driver\Command(['ping' => 1]);
+
+try {
+    $cursor = $manager->executeCommand('admin', $command);
+} catch(MongoDB\Driver\Exception $e) {
+    echo $e->getMessage(), "\n";
+    exit;
+}
+
+/* The ping command returns a single result document, so we need to access the
+ * first result in the cursor. */
+$response = $cursor->toArray()[0];
+
+var_dump($response);
+
+$bulk = new MongoDB\Driver\BulkWrite;
+$bulk->insert(['x' => 1]);
+$bulk->insert(['x' => 2]);
+$bulk->insert(['x' => 3]);
+$manager->executeBulkWrite('ICT2103.school', $bulk);
+
+$filter = ['x' => ['$gt' => 1]];
+$options = [
+    'projection' => ['_id' => 0],
+    'sort' => ['x' => -1],
+];
+
+$query = new MongoDB\Driver\Query($filter, $options);
+$cursor = $manager->executeQuery('ICT2103.school', $query);
+
+foreach ($cursor as $document) {
+    var_dump($document);
+}
+ 
 }
