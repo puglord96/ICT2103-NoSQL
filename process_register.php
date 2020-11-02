@@ -18,10 +18,6 @@
 
 include "header.inc.php";
 
-define("DBHOST", "localhost");
-define("DBNAME", "school");
-define("DBUSER", "root");
-define("DBPASS", "sceptile101");
 
 
 $fname = $lname = $email = $pwd = $cpwd = $errorMsg = "";
@@ -173,16 +169,13 @@ $response = $cursor->toArray()[0];
 var_dump($response);
 
 $bulk = new MongoDB\Driver\BulkWrite;
-$bulk->insert(['x' => 1]);
-$bulk->insert(['x' => 2]);
-$bulk->insert(['x' => 3]);
+$bulk->insert(['name' => 'Kin Seong']);
+$bulk->insert(['name' => 'Kin Seong']);
+$bulk->insert(['name' => 'Kin Seong']);
 $manager->executeBulkWrite('ICT2103.school', $bulk);
 
 $filter = ['x' => ['$gt' => 1]];
-$options = [
-    'projection' => ['_id' => 0],
-    'sort' => ['x' => -1],
-];
+$options = [];
 
 $query = new MongoDB\Driver\Query($filter, $options);
 $cursor = $manager->executeQuery('ICT2103.school', $query);
