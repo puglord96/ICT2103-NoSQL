@@ -5,14 +5,14 @@
 
     <body>
     <div class="container">
-  <h2>Member Registration</h2>
-  <h4>For existing members, Please go to the login page</h4>
+  <h2>Log In</h2>
+ 
   <form name="myForm" action="process_login.php"  novalidate onsubmit="return validateForm()" method="post">
       
       
     <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+      <label for="nric">NRIC:</label>
+      <input type="text" class="form-control" id="nric" placeholder="Enter NRIC" name="nric">
     </div>
       
     <div class="form-group">
