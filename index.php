@@ -1,22 +1,5 @@
-<html>
-    
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <head>
-        <title>Jackson</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel= "stylesheet" href ="js/2103.js" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-        <script defer src="js/2103.js" type="text/javascript"></script>
-    </head>
-  <h1>*****</h1>
-    <body>
+
+
         <?php
         // put your code here
         include "header.inc.php";
@@ -24,8 +7,8 @@
         
       
     <div class="container">
-    <h2>Search for School Information</h2>
-    <h4>Information such as School name | Cut Off Points | Academic Stream</h4>
+    <h1>Search for School Information</h1>
+    <h3>Information such as School name | Cut Off Points | Academic Stream</h3>
     <form name="myForm" action="process_login.php"  novalidate onsubmit="return validateForm()" method="post">
       
    

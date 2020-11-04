@@ -10,6 +10,13 @@
     width:40%;
 }
 
+.dropdown-menu{
+    padding:5px;
+    width:200px;
+}
 
+body{
+    margin-top:80px;
+}
 
 

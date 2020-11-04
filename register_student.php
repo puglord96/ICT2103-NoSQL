@@ -1,22 +1,4 @@
-<html>
-    
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <head>
-        <title>Jackson</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel= "stylesheet" href ="css.css" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-        <!--<script defer src="js/main.js" type="text/javascript"></script>-->
-    </head>
-    
-    <h1>*****</h1>
+
 <?php
         include "header.inc.php";
         ?>
@@ -25,7 +7,7 @@
     <div class="container" id="RegForm">
   <h2>Member Registration</h2>
   <h4>For existing members, Please go to the login page</h4>
-  <form name="myForm" id="myForm" action="process_register.php" novalidate onsubmit="return validateForm()" method="post">
+  <form name="myForm" id="myForm" action="process_register_student.php" novalidate onsubmit="return validateForm()" method="post">
       
     <div class="form-group">
       <label for="fname">Full Name:</label>
@@ -45,7 +27,7 @@
       
      <div class="form-group">
       <label for="nric">NRIC: (Login ID)</label>
-      <input type="email" class="form-control" id="nric" placeholder="Enter email" pattern="(?i)^[STFG]\d{7}[A-Z]$" name="nric" required>
+      <input type="text" class="form-control" id="nric" placeholder="Enter email" pattern="(?i)^[STFG]\d{7}[A-Z]$" name="nric" required>
     </div> 
       
       

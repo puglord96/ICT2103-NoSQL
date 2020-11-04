@@ -1,20 +1,7 @@
-<head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <head>
-        <title>Jackson</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel= "stylesheet" href ="css/main.css" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-        <script defer src="js/main.js" type="text/javascript"></script>
-    </head>
-<h1>*****</h1>
+
 <?php
+
+include 'header.inc.php';
 
 // Constants for accessing our DB:
 define("DBHOST", "localhost");

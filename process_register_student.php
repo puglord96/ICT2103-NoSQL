@@ -1,27 +1,14 @@
-<head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <head>
-        <title>Jackson</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel= "stylesheet" href ="css/main.css" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-        <script defer src="js/main.js" type="text/javascript"></script>
-    </head>
-<h1>*****</h1>
+
 <?php
 
 include "header.inc.php";
 
 
 
-$fname = $lname = $email = $pwd = $cpwd = $errorMsg = "";
+$fname = $dob = $nationality = $nric = $email = $pwd = $cpwd = $mt = $pschool = $add1 = $add2 = $errorMsg = "";
+$contact = $agg = $pyear = 0;
 $success = true;
+
 if (empty($_POST["fname"]))
 {
 $errorMsg .= "First name is required.<br>";
@@ -33,30 +20,47 @@ $fname = sanitize_input($_POST["fname"]);
 // Additional check to make sure e-mail address is well-formed.
 if (!preg_match("/^[a-zA-Z]+\s?[a-zA-Z]+$/", $fname))
 {
-$errorMsg .= "Invalid first name.<br>";
+$errorMsg .= "Invalid name.<br>";
 $success = false;
 }
 }
 
-
-
-if (empty($_POST["lname"]))
+if (empty($_POST["dob"]))
 {
-$errorMsg .= "Last name is required.<br>";
+$errorMsg .= "Date of Birth is required.<br>";
 $success = false;
 }
 else
 {
-$lname = sanitize_input($_POST["lname"]);
+$dob = sanitize_input($_POST["dob"]);
 // Additional check to make sure e-mail address is well-formed.
-if (!preg_match("/^[a-zA-Z]{2,50}$/", $lname))
+
+}
+
+
+if (empty($_POST["nationality"]))
 {
-$errorMsg .= "Invalid last name.<br>";
+$errorMsg .= "Nationality is required.<br>";
 $success = false;
 }
+else
+{
+$nationality = sanitize_input($_POST["nationality"]);
+// Additional check to make sure e-mail address is well-formed.
+
 }
 
+if (empty($_POST["nric"]))
+{
+$errorMsg .= "Your NRIC is required.<br>";
+$success = false;
+}
+else
+{
+$nationality = sanitize_input($_POST["nric"]);
+// Additional check to make sure e-mail address is well-formed.
 
+}
 
 
 if (empty($_POST["email"]))
@@ -111,6 +115,90 @@ $success = false;
 }
 }
 
+if (empty($_POST["contact"]))
+{
+$errorMsg .= "Your contact number is required.<br>";
+$success = false;
+}
+else
+{
+$contact = sanitize_input($_POST["contact"]);
+// Additional check to make sure e-mail address is well-formed.
+
+}
+
+if (empty($_POST["agg"]))
+{
+$errorMsg .= "Your PSLE aggregate score is required.<br>";
+$success = false;
+}
+else
+{
+$agg = sanitize_input($_POST["agg"]);
+// Additional check to make sure e-mail address is well-formed.
+
+}
+
+if (empty($_POST["pyear"]))
+{
+$errorMsg .= "Please enter the year of completion for your PSLE.<br>";
+$success = false;
+}
+else
+{
+$pyear = sanitize_input($_POST["pyear"]);
+// Additional check to make sure e-mail address is well-formed.
+
+}
+
+if (empty($_POST["mt"]))
+{
+$errorMsg .= "Please enter the year of completion for your PSLE.<br>";
+$success = false;
+}
+else
+{
+$mt = sanitize_input($_POST["mt"]);
+// Additional check to make sure e-mail address is well-formed.
+
+}
+
+if (empty($_POST["pschool"]))
+{
+$errorMsg .= "Please enter the year of completion for your PSLE.<br>";
+$success = false;
+}
+else
+{
+$pschool = sanitize_input($_POST["pschool"]);
+// Additional check to make sure e-mail address is well-formed.
+
+}
+
+if (empty($_POST["add1"]))
+{
+$errorMsg .= "Please enter the year of completion for your PSLE.<br>";
+$success = false;
+}
+else
+{
+$add1 = sanitize_input($_POST["add1"]);
+// Additional check to make sure e-mail address is well-formed.
+
+}
+
+if (empty($_POST["add2"]))
+{
+$errorMsg .= "Please enter the year of completion for your PSLE.<br>";
+$success = false;
+}
+else
+{
+$add2 = sanitize_input($_POST["add2"]);
+// Additional check to make sure e-mail address is well-formed.
+
+}
+
 
 
 
@@ -148,7 +236,7 @@ include "footer.inc.php";
 
 
 function saveMemberToDB(){
-    global $fname, $lname, $email, $pwd, $errorMsg, $success;
+    global $fname, $dob, $nationality , $nric , $email , $pwd , $cpwd , $mt , $pschool , $add1 , $add2 , $contact , $agg , $pyear, $errorMsg;
     // Create connection
     $manager = new MongoDB\Driver\Manager(
     'mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
@@ -158,7 +246,7 @@ function saveMemberToDB(){
 try {
     $cursor = $manager->executeCommand('admin', $command);
 } catch(MongoDB\Driver\Exception $e) {
-    echo $e->getMessage(), "\n";
+    //echo $e->getMessage(), "\n";
     exit;
 }
 
@@ -166,22 +254,30 @@ try {
  * first result in the cursor. */
 $response = $cursor->toArray()[0];
 
-var_dump($response);
+//var_dump($response);
 
 $bulk = new MongoDB\Driver\BulkWrite;
-$bulk->insert(['name' => 'Kin Seong']);
-$bulk->insert(['name' => 'Kin Seong']);
-$bulk->insert(['name' => 'Kin Seong']);
+$bulk->insert([
+    'name' => $fname,
+    'password'=> $pwd,
+    'contact'=>$contact,
+    'PSLE_agg'=> $agg,
+    'DOB'=>$dob,
+    'Year_of_PSLE'=>$pyear,
+    'Mother_Tongue'=>$mt,
+    'Previous_Primary_School'=>$pschool,
+    'Address_Line_1'=>$add1,
+    'Address_Line_2'=>$add2
+    ]);
+
 $manager->executeBulkWrite('ICT2103.school', $bulk);
 
-$filter = ['x' => ['$gt' => 1]];
+$filter = [];
 $options = [];
 
 $query = new MongoDB\Driver\Query($filter, $options);
 $cursor = $manager->executeQuery('ICT2103.school', $query);
 
-foreach ($cursor as $document) {
-    var_dump($document);
-}
+
  
 }
