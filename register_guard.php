@@ -5,9 +5,9 @@
 
     <body>
     <div class="container" id="RegForm">
-  <h2>Student Sign Up</h2>
+  <h2>Parent/Guardian Registration</h2>
   <h4>For existing members, Please go to the login page</h4>
-  <form name="myForm" id="myForm" action="process_register_student.php" novalidate onsubmit="return validateForm()" method="post">
+  <form name="myForm" id="myForm" action="process_register_guard.php" novalidate onsubmit="return validateForm()" method="post">
       
     <div class="form-group">
       <label for="fname">Full Name:</label>
@@ -28,9 +28,9 @@
      <div class="form-group">
       <label for="nric">NRIC: (Login ID)</label>
       <input type="text" class="form-control" id="nric" placeholder="Enter email" pattern="(?i)^[STFG]\d{7}[A-Z]$" name="nric" required>
-    </div> 
+    </div>
       
-      
+
        <div class="form-group">
       <label for="pwd">Password:</label>
       <input type="password" class="form-control" id="pwd" placeholder="Enter password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,50}$" name="pwd" required>
@@ -47,32 +47,30 @@
       <input type="email" class="form-control" id="email" placeholder="Enter email" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" name="email" required>
     </div>
       
+    <div class="form-group">
+      <label for="cname">Child's/Ward's Name: </label>
+      <input type="text" class="form-control" id="cname" placeholder="Enter Child's Name"  name="cname" required>
+    </div> 
+      
+            <div class="form-group">
+      <label for="cnric">Child's/Ward's NRIC: </label>
+      <input type="text" class="form-control" id="cnric" placeholder="Enter Child's NRIC" pattern="(?i)^[STFG]\d{7}[A-Z]$" name="cnric" required>
+    </div> 
+      
+      <div class="form-group">
+      <label for="relate">Relationship to Child/Ward: </label>
+      <input type="text" class="form-control" id="relate" placeholder="" name="relate" required>
+    </div> 
+      
       <div class="form-group">
       <label for="contact">Contact No:</label>
-      <input type="number" class="form-control" id="contact" placeholder="Enter email" name="contact" required>
+      <input type="number" class="form-control" id="contact" placeholder="Enter contact number" name="contact" required>
     </div>
       
-      <div class="form-group">
-      <label for="agg">PSLE Aggregate Score:</label>
-      <input type="number" class="form-control" id="agg" placeholder="Enter your PSLE Aggregate Score" pattern="^\d{2,3}$" name="agg" required>
-    </div>
-     
       
       <div class="form-group">
-      <label for="pyear">Year Completed PSLE:</label>
-      <input type="number" class="form-control" id="pyear" placeholder="Enter your year completed PSLE" pattern="^\d{4}$" name="pyear" required>
-    </div>
-      
-      <div class="form-group">
-      <label for="mt">Mother Tongue:</label>
-      <input type="text" class="form-control" id="mt" placeholder="Enter your Mother Tongue" name="mt" required>
-    </div>
-      
-
-      
-      <div class="form-group">
-      <label for="pschool">Previous Primary School:</label>
-      <input type="text" class="form-control" id="pyear" placeholder="Enter your Previous Primary School" name="pschool" required>
+      <label for="occupy">Occupation:</label>
+      <input type="text" class="form-control" id="occupy" placeholder="Enter your occupation" name="occupy" required>
     </div>
       
       <div class="form-group">
@@ -85,9 +83,6 @@
       <input type="text" class="form-control" id="add1" placeholder="Enter your address" name="add2" required>
     </div>
       
-
-      
-
       
     <div class="checkbox">
       <label><input type="checkbox" required name="remember"> Remember me</label>

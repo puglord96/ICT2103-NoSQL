@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Feedback Page</title>
+        <title>School Information Website</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -40,7 +40,7 @@
  
                           <a class="dropdown-item" href="register_student.php">Student Sign Up</a>
                           <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Parent/Guardian Sign-Up</a>
+                          <a class="dropdown-item" href="register_guard.php">Parent/Guardian Sign-Up</a>
                         </div>
                       </li>
       

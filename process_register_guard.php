@@ -5,8 +5,8 @@ include "header.inc.php";
 
 
 
-$fname = $dob = $nationality = $nric = $email = $pwd = $cpwd = $mt = $pschool = $add1 = $add2 = $errorMsg = "";
-$contact = $agg = $pyear = 0;
+$fname = $dob = $nationality = $nric = $email = $pwd = $cpwd = $cname = $cnric = $relate = $occupy = $add1 = $add2 = $errorMsg = "";
+$contact = 0;
 $success = true;
 
 if (empty($_POST["fname"]))
@@ -17,12 +17,7 @@ $success = false;
 else
 {
 $fname = sanitize_input($_POST["fname"]);
-// Additional check to make sure e-mail address is well-formed.
-if (!preg_match("/^[a-zA-Z]+\s?[a-zA-Z]+$/", $fname))
-{
-$errorMsg .= "Invalid name.<br>";
-$success = false;
-}
+
 }
 
 if (empty($_POST["dob"]))
@@ -57,7 +52,7 @@ $success = false;
 }
 else
 {
-$nationality = sanitize_input($_POST["nric"]);
+$nric = sanitize_input($_POST["nric"]);
 // Additional check to make sure e-mail address is well-formed.
 
 }
@@ -89,12 +84,7 @@ $success = false;
 else
 {
 $pwd = sanitize_input($_POST["pwd"]);
-// Additional check to make sure e-mail address is well-formed.
-if (!preg_match("/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/", $pwd))
-{
-$errorMsg .= "Invalid password format.<br>";
-$success = false;
-}
+
 }
 
 
@@ -108,9 +98,9 @@ else
 {
 $cpwd = sanitize_input($_POST["cpwd"]);
 // Additional check to make sure e-mail address is well-formed.
-if (!preg_match("/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/", $cpwd))
+if ($cpwd != $pwd)
 {
-$errorMsg .= "Invalid Password format.";
+$errorMsg .= "Password Mismatch";
 $success = false;
 }
 }
@@ -127,50 +117,50 @@ $contact = sanitize_input($_POST["contact"]);
 
 }
 
-if (empty($_POST["agg"]))
+if (empty($_POST["cname"]))
 {
 $errorMsg .= "Your PSLE aggregate score is required.<br>";
 $success = false;
 }
 else
 {
-$agg = sanitize_input($_POST["agg"]);
+$cname = sanitize_input($_POST["cname"]);
 // Additional check to make sure e-mail address is well-formed.
 
 }
 
-if (empty($_POST["pyear"]))
+if (empty($_POST["cnric"]))
 {
 $errorMsg .= "Please enter the year of completion for your PSLE.<br>";
 $success = false;
 }
 else
 {
-$pyear = sanitize_input($_POST["pyear"]);
+$cnric = sanitize_input($_POST["cnric"]);
 // Additional check to make sure e-mail address is well-formed.
 
 }
 
-if (empty($_POST["mt"]))
+if (empty($_POST["relate"]))
 {
 $errorMsg .= "Please enter the year of completion for your PSLE.<br>";
 $success = false;
 }
 else
 {
-$mt = sanitize_input($_POST["mt"]);
+$relate = sanitize_input($_POST["relate"]);
 // Additional check to make sure e-mail address is well-formed.
 
 }
 
-if (empty($_POST["pschool"]))
+if (empty($_POST["occupy"]))
 {
 $errorMsg .= "Please enter the year of completion for your PSLE.<br>";
 $success = false;
 }
 else
 {
-$pschool = sanitize_input($_POST["pschool"]);
+$occupy = sanitize_input($_POST["occupy"]);
 // Additional check to make sure e-mail address is well-formed.
 
 }
@@ -213,6 +203,7 @@ if ($success)
 }
 else            
 {
+
     echo '<section class="container"><hr>';
     echo '<h1>Oops!</h1>';
     echo '<h2>The following errors were detected:</h2>';
@@ -235,7 +226,10 @@ include "footer.inc.php";
 
 
 function saveMemberToDB(){
-    global $fname, $dob, $nationality , $nric , $email , $pwd , $cpwd , $mt , $pschool , $add1 , $add2 , $contact , $agg , $pyear, $errorMsg;
+    
+    
+
+    global $fname, $dob, $nationality , $nric , $email , $pwd , $cpwd , $cname , $cnric , $add1 , $add2 , $contact , $relate , $occupy, $errorMsg;
     // Create connection
     $manager = new MongoDB\Driver\Manager(
     'mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
@@ -258,14 +252,13 @@ $response = $cursor->toArray()[0];
 $bulk = new MongoDB\Driver\BulkWrite;
 $bulk->insert([
     'NRIC' => $nric,
-    'name' => $fname,
-    'password'=> $pwd,
-    'contact'=>$contact,
-    'PSLE_agg'=> $agg,
-    'DOB'=>$dob,
-    'Year_of_PSLE'=>$pyear,
-    'Mother_Tongue'=>$mt,
-    'Previous_Primary_School'=>$pschool,
+    'Name' => $fname,
+    'Password'=> $pwd,
+    'Contact'=>$contact,
+    'Student_name'=> $cname,
+    'Student_relationship'=>$relate,
+    "NRIC_of_Child"=>$cnric,
+    'Occupation'=>$occupy,
     'Address_Line_1'=>$add1,
     'Address_Line_2'=>$add2
     ]);
