@@ -26,12 +26,13 @@
             <ul class="nav navbar-nav navbar-right">
              
                     <?php 
-                    if(isset($_SESSION["name"])){
-                        echo "<span class='navbar-text'>Welcome Back, ".$_SESSION["name"]."</span> <li><a href='logout.php'>Log Out</a></li>'";
+                    if(isset($_SESSION["name"])  ){
+                        if( basename($_SERVER['PHP_SELF'], '.php') != 'profile' ) {
+                        echo "<span class='navbar-text'>Welcome Back, <a href='profile.php'>".$_SESSION["name"]."</a<</span> <li><a href='logout.php'>Log Out</a></li>";
                        
                             
                
-                            
+                            }
                             
                         
                     }

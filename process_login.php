@@ -103,7 +103,7 @@ foreach ($rows as $document) {
 }
 
 
-if($recordCount = 0){
+if($recordCount == 0){
     $errorMsg = "Email not found or password doesn't match...!";
     $success = false;
 }

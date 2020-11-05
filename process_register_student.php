@@ -17,12 +17,7 @@ $success = false;
 else
 {
 $fname = sanitize_input($_POST["fname"]);
-// Additional check to make sure e-mail address is well-formed.
-if (!preg_match("/^[a-zA-Z]+\s?[a-zA-Z]+$/", $fname))
-{
-$errorMsg .= "Invalid name.<br>";
-$success = false;
-}
+
 }
 
 if (empty($_POST["dob"]))
@@ -57,7 +52,7 @@ $success = false;
 }
 else
 {
-$nationality = sanitize_input($_POST["nric"]);
+$nric = sanitize_input($_POST["nric"]);
 // Additional check to make sure e-mail address is well-formed.
 
 }
@@ -90,11 +85,7 @@ else
 {
 $pwd = sanitize_input($_POST["pwd"]);
 // Additional check to make sure e-mail address is well-formed.
-if (!preg_match("/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/", $pwd))
-{
-$errorMsg .= "Invalid password format.<br>";
-$success = false;
-}
+
 }
 
 
@@ -108,11 +99,7 @@ else
 {
 $cpwd = sanitize_input($_POST["cpwd"]);
 // Additional check to make sure e-mail address is well-formed.
-if (!preg_match("/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/", $cpwd))
-{
-$errorMsg .= "Invalid Password format.";
-$success = false;
-}
+
 }
 
 if (empty($_POST["contact"]))
@@ -257,10 +244,10 @@ $response = $cursor->toArray()[0];
 
 $bulk = new MongoDB\Driver\BulkWrite;
 $bulk->insert([
-    'NRIC' => $nric,
-    'name' => $fname,
-    'password'=> $pwd,
-    'contact'=>$contact,
+    'NRIC' => strtoupper($nric),
+    'Name' => $fname,
+    'Password'=> $pwd,
+    'Contact'=>$contact,
     'PSLE_agg'=> $agg,
     'DOB'=>$dob,
     'Year_of_PSLE'=>$pyear,

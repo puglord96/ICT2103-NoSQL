@@ -7,75 +7,59 @@
         
       
     <div class="container">
-    <h1>Search for School Information</h1>
-    <h3>Information such as School name | Cut Off Points | Academic Stream</h3>
-    <form name="myForm" action="process_login.php"  novalidate onsubmit="return validateForm()" method="post">
-      
-   
-    <div class="form-group" >
-      <label for="email">Search:</label>
-      <input type="email" class="form-control" id="searchid" placeholder="Search for school..." name="searc">
-    </div>
-   
-    <div id = "myDIV"> 
-    <div class="form-group">
-    <label for="MinCutOffPoints">Min CutOffPoints:</label>
-    <select name="MinCutOffPoints" id="MinCutOffPoints">
-    <option value="160">160</option>
-    <option value="170">170</option>
-    <option value="180">180</option>
-    <option value="190">190</option>
-    <option value="200">200</option>
-    <option value="210">210</option>
-    <option value="220">220</option>
-    <option value="230">230</option>
-    </select>
+    <h2>Profile</h2>
     
-    <label for="MinCutOffPoints">Max CutOffPoints:</label>
-    <select name="MaxCutOffPoints" id="Max CutOffPoints">
-    <option value="160">160</option>
-    <option value="170">170</option>
-    <option value="180">180</option>
-    <option value="190">190</option>
-    <option value="200">200</option>
-    <option value="210">210</option>
-    <option value="220">220</option>
-    <option value="230">230</option>
-    </select>
-    </div>
-        
-        
-    <div class="form-group">
-  <input type="checkbox" id="north" name="north" value="north"><label for="north"> north</label>    
-  <input type="checkbox" id="south" name="south" value="south"><label for="south"> south</label>
-  <input type="checkbox" id="east" name="east" value="east"><label for="east"> east</label>
-  <input type="checkbox" id="west" name="west" value="west"><label for="west"> west</label>
+    <?php 
+    
+    $profileArrForm = [];
+    
+   $nric = "";
+    
+   $manager = new MongoDB\Driver\Manager(
+    'mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
+    
+    $command = new MongoDB\Driver\Command(['ping' => 1]);
 
-    </select>
-   </div>
-        
-        
-   <div class="form-group">
-    <label for="NoOfSchool">Choose number of schools:</label>
-    <select name="NoOfSchool" id="NoOfSchool">
-    <option value="5">5</option>
-    <option value="10">10</option>
-    <option value="15">15</option>
-    <option value="20">20</option>
-    <option value="20">25</option>
-    <option value="20">30</option>
+try {
+    $cursor = $manager->executeCommand('admin', $command);
+} catch(MongoDB\Driver\Exception $e) {
+    echo $e->getMessage(), "\n";
+    exit;
+}
+
+$filter = [
+           'Name' => $_SESSION["name"]
+        ];
+$options = [];
+
+$query = new \MongoDB\Driver\Query($filter, $options);
+$rows   = $manager->executeQuery('ICT2103.school', $query);
+
+
+
+foreach ($rows as $document) {
+  
+$doc = (array)$document;
+
+foreach ($doc as $key => $value) {
+    if($key != "_id"){
+        echo str_replace("_"," ",$key) . " : " . $value . "<br> ";
+    }
+}
+//var_dump($doc);
+//echo $doc[1];
+//  $recordCount++;
+//  $name = $doc["Name"];
+//  $_SESSION["name"] = $name;
+}
     
-    </select>
-   </div>
     
+    
+    ?>
+    
+
 
     </div>
-    
-    <button type="submit" value = "Submit now" class="btn btn-default">Submit</button>
-  </form>
-
-
-     <button onclick="myFunction()">Advanced Search</button>
     </body>
     
             <?php

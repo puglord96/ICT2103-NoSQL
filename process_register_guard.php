@@ -251,7 +251,7 @@ $response = $cursor->toArray()[0];
 
 $bulk = new MongoDB\Driver\BulkWrite;
 $bulk->insert([
-    'NRIC' => $nric,
+    'NRIC' => strtoupper($nric),
     'Name' => $fname,
     'Password'=> $pwd,
     'Contact'=>$contact,
