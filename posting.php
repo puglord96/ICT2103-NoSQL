@@ -56,7 +56,7 @@ function saveMemberToDB(){
     <body>    
     <div class="container">
     <h2>Parent's/ Guardian's Local Contact Details</h2>
-    <form name="myForm" action="process_login.php"  novalidate onsubmit="return validateForm()" method="post">
+    <form name="myForm" action="process_posting.php"  novalidate onsubmit="return validateForm()" method="post">
       
       
     <div class="form-group">

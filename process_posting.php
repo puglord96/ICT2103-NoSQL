@@ -5,21 +5,6 @@
             $success = true;
             $errorMsg = "";
             $email = "";
-            
-            $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
-    
-    $command = new MongoDB\Driver\Command(['ping' => 1]);
-
-try {
-    $cursor = $manager->executeCommand('admin', $command);
-} catch(MongoDB\Driver\Exception $e) {
-    //echo $e->getMessage(), "\n";
-    exit;
-}
-
-$response = $cursor->toArray()[0];
-
-var_dump($response);
 
             if (empty($_POST["email"]) || empty($_POST["name"]) || empty($_POST["feedback"])) {
                     $errorMsg .= "You have some fields left blank, please fill the empty fields.";
@@ -61,20 +46,12 @@ var_dump($response);
     </body>
     
 </html>
+
 <?php
-
-//Helper function that checks input for malicious or unwanted content.
-function sanitize_input($data)
-{
-$data = trim($data);
-$data = stripslashes($data);
-$data = htmlspecialchars($data);
-return $data;
-}
-
 function savveFB($name, $email, $fbType, $fb){
     
-    $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
+    $manager = new MongoDB\Driver\Manager(
+    'mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
     
     $command = new MongoDB\Driver\Command(['ping' => 1]);
 
@@ -85,8 +62,11 @@ try {
     exit;
 }
 
+/* The ping command returns a single result document, so we need to access the
+ * first result in the cursor. */
 $response = $cursor->toArray()[0];
 
+//var_dump($response);
 
 $bulk = new MongoDB\Driver\BulkWrite;
 $bulk->insert([
@@ -105,4 +85,6 @@ $options = [];
 $query = new MongoDB\Driver\Query($filter, $options);
 $cursor = $manager->executeQuery('ICT2103.school', $query);
 }
+
+
 ?>
