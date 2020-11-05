@@ -187,7 +187,7 @@ $add2 = sanitize_input($_POST["add2"]);
 }
 
 
-
+checkICExists();
 
 
 if ($success)   
@@ -219,6 +219,47 @@ return $data;
 }
 
 include "footer.inc.php";
+
+function checkICExists(){
+        global $nric,$pwd,$errorMsg, $success,$recordCount;
+    
+   $manager = new MongoDB\Driver\Manager(
+    'mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
+    
+    $command = new MongoDB\Driver\Command(['ping' => 1]);
+
+try {
+    $cursor = $manager->executeCommand('admin', $command);
+} catch(MongoDB\Driver\Exception $e) {
+    echo $e->getMessage(), "\n";
+    exit;
+}
+
+$filter = [
+           'NRIC' => strtoupper($nric),
+           'Password' =>$pwd
+        ];
+$options = [];
+
+$query = new \MongoDB\Driver\Query($filter, $options);
+$rows   = $manager->executeQuery('ICT2103.school', $query);
+
+
+
+foreach ($rows as $document) {
+  //var_dump($document);
+  $doc = (array)$document;
+  $recordCount++;
+  $name = $doc["Name"];
+ 
+}
+
+
+if($recordCount != 0){
+    $errorMsg = "User Exists in Database";
+    $success = false;
+}
+}
 
 
 function saveMemberToDB(){
