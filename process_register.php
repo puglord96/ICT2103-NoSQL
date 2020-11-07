@@ -5,9 +5,101 @@ include "header.inc.php";
 
 
 
-$fname = $dob = $nationality = $nric = $email = $pwd = $cpwd = $mt = $pschool = $add1 = $add2 = $errorMsg = "";
-$contact = $agg = $pyear = 0;
+$fname = $dob = $nationality = $nric = $email = $gnric = $pwd = $cpwd = $mt = $pschool = $add1 = $add2 = $errorMsg = $gnric = $gname  = $relate = $gadd1 = $gadd2 = $occupy = $gnation= "";
+$contact = $agg = $pyear = $gcontact = 0;
 $success = true;
+
+if (empty($_POST["gnric"]))
+{
+$errorMsg .= "Parent/Guardian NRIC is required.<br>";
+$success = false;
+}
+else
+{
+$gnric = sanitize_input($_POST["gnric"]);
+
+}
+
+
+if (empty($_POST["gname"]))
+{
+$errorMsg .= "Parent/Guardian Name is required.<br>";
+$success = false;
+}
+else
+{
+$gname = sanitize_input($_POST["gname"]);
+
+}
+
+if (empty($_POST["gcontact"]))
+{
+$errorMsg .= "Parent/Guardian Name is required.<br>";
+$success = false;
+}
+else
+{
+$gcontact = sanitize_input($_POST["gcontact"]);
+
+}
+
+
+if (empty($_POST["relate"]))
+{
+$errorMsg .= "Parent/Guardian Name is required.<br>";
+$success = false;
+}
+else
+{
+$relate = sanitize_input($_POST["relate"]);
+
+}
+
+
+if (empty($_POST["gadd1"]))
+{
+$errorMsg .= "Parent/Guardian Address is required.<br>";
+$success = false;
+}
+else
+{
+$gadd1 = sanitize_input($_POST["gadd1"]);
+
+}
+
+
+if (empty($_POST["gadd2"]))
+{
+$errorMsg .= "Parent/Guardian Address is required.<br>";
+$success = false;
+}
+else
+{
+$gadd1 = sanitize_input($_POST["gadd2"]);
+
+}
+
+if (empty($_POST["occupy"]))
+{
+$errorMsg .= "Parent/Guardian Occupation is required.<br>";
+$success = false;
+}
+else
+{
+$occupy = sanitize_input($_POST["occupy"]);
+
+}
+
+if (empty($_POST["gnation"]))
+{
+$errorMsg .= "Parent/Guardian Nationality is required.<br>";
+$success = false;
+}
+else
+{
+$gnation = sanitize_input($_POST["gnation"]);
+
+}
 
 if (empty($_POST["fname"]))
 {
@@ -27,7 +119,7 @@ $success = false;
 }
 else
 {
-$dob = sanitize_input($_POST["dob"]);
+$dob = date('Y-m-d',strtotime(sanitize_input($_POST["dob"])));
 // Additional check to make sure e-mail address is well-formed.
 
 }
@@ -110,6 +202,18 @@ $success = false;
 else
 {
 $contact = sanitize_input($_POST["contact"]);
+// Additional check to make sure e-mail address is well-formed.
+
+}
+
+if (empty($_POST["gnric"]))
+{
+$errorMsg .= "Your Parent's NRIC is required.<br>";
+$success = false;
+}
+else
+{
+$gnric = sanitize_input($_POST["gnric"]);
 // Additional check to make sure e-mail address is well-formed.
 
 }
@@ -263,7 +367,7 @@ if($recordCount != 0){
 
 
 function saveMemberToDB(){
-    global $fname, $dob, $nationality , $nric , $email , $pwd , $cpwd , $mt , $pschool , $add1 , $add2 , $contact , $agg , $pyear, $errorMsg;
+     global $fname, $dob, $nationality , $nric , $email , $pwd , $mt , $gnric, $pschool , $add1 , $add2 , $contact , $agg , $pyear, $errorMsg  , $gname  , $relate , $gadd1 , $gadd2, $occupy, $gcontact, $gnation;
     // Create connection
     $manager = new MongoDB\Driver\Manager(
     'mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
@@ -288,14 +392,24 @@ $bulk->insert([
     'NRIC' => strtoupper($nric),
     'Name' => $fname,
     'Password'=> $pwd,
+    'Email' => $email,
     'Contact'=>$contact,
-    'PSLE_agg'=> $agg,
-    'DOB'=>$dob,
+    'Nationality' =>$nationality,
+    'PSLE_Aggregate_Score'=> $agg,
+    'Date_of_Birth'=>$dob,
     'Year_of_PSLE'=>$pyear,
     'Mother_Tongue'=>$mt,
     'Previous_Primary_School'=>$pschool,
     'Address_Line_1'=>$add1,
-    'Address_Line_2'=>$add2
+    'Address_Line_2'=>$add2,
+    'Parent_Guardian_NRIC' => strtoupper($gnric),
+    'Parent_Guardian_Name' => $gname,
+    'Parent_Guardian_Relationship' => $relate,
+    'Parent_Guardian_Nationality' => $gnation,
+    'Parent_Guardian_Address_Line_1' => $gadd1,
+    'Parent_Guardian_Address_Line_2' => $gadd2,
+    'Parent_Guardian_Occupation' => $occupy,
+    'Parent_Guardian_Contact_Number' => $gcontact
     ]);
 
 $manager->executeBulkWrite('ICT2103.school', $bulk);

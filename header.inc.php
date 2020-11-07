@@ -43,9 +43,8 @@
                         </a>
                         <div class='dropdown-menu' aria-labelledby='navbarDropdown'>
  
-                          <a class='dropdown-item' href='register_student.php'>Student Sign Up</a>
-                          <div class='dropdown-divider'></div>
-                          <a class='dropdown-item' href='register_guard.php'>Parent/Guardian Sign-Up</a>
+                          <a class='dropdown-item' href='register.php'>Sign Up</a>
+                          
                         </div>
                       </li>
       

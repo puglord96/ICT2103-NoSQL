@@ -7,9 +7,9 @@
     <div class="container" id="RegForm">
   <h2>Student Sign Up</h2>
   <h4>For existing members, Please go to the login page</h4>
-  <form name="myForm" id="myForm" action="process_register_student.php" novalidate onsubmit="return validateForm()" method="post">
+  <form name="myForm" id="myForm" action="process_register.php" novalidate onsubmit="return validateForm()" method="post">
       
-    <div class="form-group">
+     <div class="form-group">
       <label for="fname">Full Name:</label>
       <input type="text" class="form-control" id="fname" placeholder="Enter full name" pattern="^([A-Za-z]+[,.]?[ ]?|[A-Za-z]+['-]?)+$" name="fname" required>
       <!--//pattern for name only accept 1 space but not 2 or more and doesn't include number-->
@@ -52,6 +52,7 @@
       <input type="number" class="form-control" id="contact" placeholder="Enter email" name="contact" required>
     </div>
       
+      
       <div class="form-group">
       <label for="agg">PSLE Aggregate Score:</label>
       <input type="number" class="form-control" id="agg" placeholder="Enter your PSLE Aggregate Score" pattern="^\d{2,3}$" name="agg" required>
@@ -68,7 +69,6 @@
       <input type="text" class="form-control" id="mt" placeholder="Enter your Mother Tongue" name="mt" required>
     </div>
       
-
       
       <div class="form-group">
       <label for="pschool">Previous Primary School:</label>
@@ -86,6 +86,49 @@
     </div>
       
 
+      
+      <div class="form-group">
+      <label for="gnric">Parent/Guardian's NRIC:</label>
+      <input type="text" class="form-control" id="gnric" placeholder="Enter NRIC of your Parent/Guardian" pattern="(?i)^[STFG]\d{7}[A-Z]$" name="gnric" required>
+    </div> 
+      
+      <div class="form-group">
+      <label for="gname">Parent/Guardian's Name:</label>
+      <input type="text" class="form-control" id="gname" placeholder="Enter your Parent's/Guardian's Name" pattern="(?i)^[STFG]\d{7}[A-Z]$" name="gname" required>
+    </div> 
+      
+      <div class="form-group">
+      <label for="gcontact">Contact No:</label>
+      <input type="number" class="form-control" id="gcontact" placeholder="Enter contact number" name="gcontact" required>
+    </div>
+      
+      <div class="form-group">
+      <label for="relate">Relationship to Child/Ward: </label>
+      <input type="text" class="form-control" id="relate" placeholder="" name="relate" required>
+    </div> 
+      
+      <div class="form-group">
+      <label for="gnation">Nationality</label>
+      <input type="text" class="form-control" id="gnation" placeholder="" name="gnation" required>
+    </div> 
+      
+      
+      <div class="form-group">
+      <label for="gadd1">Address Line 1:</label>
+      <input type="text" class="form-control" id="gadd1" placeholder="Enter your address" name="gadd1" required>
+    </div>
+      
+      <div class="form-group">
+      <label for="gadd2">Address Line 2:</label>
+      <input type="text" class="form-control" id="gadd1" placeholder="Enter your address" name="gadd2" required>
+    </div>
+      
+      <div class="form-group">
+      <label for="occupy">Occupation:</label>
+      <input type="text" class="form-control" id="occupy" placeholder="Enter your occupation" name="occupy" required>
+    </div>
+      
+      
       
 
       
