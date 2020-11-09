@@ -99,7 +99,9 @@ foreach ($rows as $document) {
   $doc = (array)$document;
   $recordCount++;
   $name = $doc["Name"];
+  $nric = $doc["NRIC"];
   $_SESSION["name"] = $name;
+  $_SESSION["nric"] = $nric; //store NRIC to session
 }
 
 

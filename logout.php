@@ -7,6 +7,7 @@
  */
 session_start();
  unset($_SESSION['name']);
+ unset($_SESSION['nric']);
 echo"<script>window.history.back();</script>";
 
 ?>

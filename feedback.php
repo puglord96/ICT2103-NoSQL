@@ -1,7 +1,13 @@
 
     
     <?php
+
     include "header.inc.php";
+    
+    if (!isset($_SESSION['nric'])) {
+        header("Location: login.php");
+        exit();
+      }else {
     ?>
     
     
@@ -11,11 +17,10 @@
     <div class="container">
     <form name="feedbackForm" method="post" action="process_feedback.php">
                         
-    <div class="form-group">
+<!--    <div class="form-group">
     <label for="nric">NRIC</label>
     <input type="text" class="form-control" id="nric" name="nric" placeholder="Your NRIC..">
-    </div>
-                    
+    </div>-->
                     
     <div class="form-group">   
     <label for="email">Email</label>
@@ -50,6 +55,7 @@
     
     <?php
     include "footer.inc.php";
+      }
     ?>
 
 </html>

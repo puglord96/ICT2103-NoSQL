@@ -10,13 +10,10 @@
             
  
 
-            if (empty($_POST["email"]) || empty($_POST["nric"]) || empty($_POST["feedback"])) {
+            if (empty($_POST["email"]) || empty($_POST["feedback"])) {
                     $errorMsg .= "You have some fields left blank, please fill the empty fields.";
                     if(empty($_POST["feedback"])){
                         $errorMsg .= "feedback field is missing.";
-                    }
-                    if(empty($_POST["nric"])){
-                        $errorMsg .= "name field is missing.";
                     }
                     if(empty($_POST["email"])){
                         $errorMsg .= "email field is missing.";
@@ -26,9 +23,10 @@
                 } 
             else {
                 $email = sanitize_input($_POST["email"]);
-                $nric = sanitize_input($_POST["nric"]);
                 $fbType = sanitize_input($_POST["fbType"]);
                 $fb = sanitize_input($_POST["feedback"]);
+                $nric = $_SESSION['nric'];
+                echo "this is the nric  : " . $nric;  
                 
                 $name = "";
 

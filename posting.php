@@ -1,5 +1,11 @@
 
 <?php
+
+if (!isset($_SESSION['name'])) {
+  header("Location: login.php");
+  exit();
+}else {
+
 include "header.inc.php";
 
 define("DBHOST", "localhost");
@@ -119,6 +125,7 @@ function saveMemberToDB(){
     </body>
 <?php
         include "footer.inc.php";
-        ?>
+}
+?>
 
 </html>
