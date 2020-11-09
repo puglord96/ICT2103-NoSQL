@@ -6,30 +6,31 @@
             $errorMsg = "";
             $email = "";
             
-            $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
-    
-    $command = new MongoDB\Driver\Command(['ping' => 1]);
+           
+            
+ 
 
-try {
-    $cursor = $manager->executeCommand('admin', $command);
-} catch(MongoDB\Driver\Exception $e) {
-    //echo $e->getMessage(), "\n";
-    exit;
-}
-
-$response = $cursor->toArray()[0];
-
-var_dump($response);
-
-            if (empty($_POST["email"]) || empty($_POST["name"]) || empty($_POST["feedback"])) {
+            if (empty($_POST["email"]) || empty($_POST["nric"]) || empty($_POST["feedback"])) {
                     $errorMsg .= "You have some fields left blank, please fill the empty fields.";
+                    if(empty($_POST["feedback"])){
+                        $errorMsg .= "feedback field is missing.";
+                    }
+                    if(empty($_POST["nric"])){
+                        $errorMsg .= "name field is missing.";
+                    }
+                    if(empty($_POST["email"])){
+                        $errorMsg .= "email field is missing.";
+                    }
+                    
                     $success = false;
                 } 
             else {
                 $email = sanitize_input($_POST["email"]);
-                $name = $_POST["name"];                
-                $fbType = $_POST["fbType"];
-                $fb = $_POST["feedback"];
+                $nric = sanitize_input($_POST["nric"]);
+                $fbType = sanitize_input($_POST["fbType"]);
+                $fb = sanitize_input($_POST["feedback"]);
+                
+                $name = "";
 
                 $emailpattern = "/[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$/";
 
@@ -43,11 +44,20 @@ var_dump($response);
                 }
                 else{
 
-                    savveFB($name, $email, $fbType, $fb);
+                    $name = nric_Chk($nric);
+//                    echo "checking nric </br>";
+                    if($name == "error"){
+//                        echo "failed! </br>";
+                        $success = false;
+                        $errorMsg .= "no such NRIC!";
+                    }else{
+//                        echo "passed! saving to db now</br>";
+                        saveFB($nric , $email, $fbType, $fb);
+                    }
                 }
             }
             if ($success) {
-                echo "<script>alert('feedback submitted successfully!');window.location.href='index.php';</script>";
+                echo "<script>alert('feedback submitted successfully ". $name ."!');window.location.href='index.php';</script>";
                 echo "<a href='index.php'>Go to Main Page</a>";
             } else {
                 echo "<h1>There was an issue!</h1>";
@@ -72,37 +82,85 @@ $data = htmlspecialchars($data);
 return $data;
 }
 
-function savveFB($name, $email, $fbType, $fb){
+function saveFB($nric, $email, $fbType, $fb){
     
     $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
     
     $command = new MongoDB\Driver\Command(['ping' => 1]);
+    try {
+        $cursor = $manager->executeCommand('admin', $command);
+    } catch(MongoDB\Driver\Exception $e) {
+        echo $e->getMessage(), "\n";
+        exit;
+    }
 
-try {
-    $cursor = $manager->executeCommand('admin', $command);
-} catch(MongoDB\Driver\Exception $e) {
-    //echo $e->getMessage(), "\n";
-    exit;
+
+    $bulk = new MongoDB\Driver\BulkWrite;
+    $bulk->insert([
+        'NRIC' => $nric,
+        'email' => $email,
+        'type_of_feedback'=> $fbType,
+        'feedback_text'=>$fb
+        ]);
+
+    $manager->executeBulkWrite('ICT2103.school', $bulk);
+
 }
 
-$response = $cursor->toArray()[0];
 
 
-$bulk = new MongoDB\Driver\BulkWrite;
-$bulk->insert([
-    'name' => $name,
-    'email' => $email,
-    'type_of_feedback'=> $fbType,
-    'feedback_text'=>$fb
-    ]);
+function nric_Chk($nric){
+    
+    $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
+    
+    $command = new MongoDB\Driver\Command(['ping' => 1]);
+    try {
+        $cursor = $manager->executeCommand('admin', $command);
+    } catch(MongoDB\Driver\Exception $e) {
+        echo $e->getMessage(), "\n";
+        exit;
+    }
 
-    // $stmt = $conn->prepare("INSERT INTO feedback (name, email, type_of_feedback, feedback_text) VALUES (?, ?, ?, ?)");
-$manager->executeBulkWrite('ICT2103.school', $bulk);
+    $filter  = ['NRIC' => $nric]; //for student Nric change if necessary
+    $filter2 = ['guard_NRIC' => $nric]; //for guardian nric
+    $options = [];
+    $studentChk = $guardChk = 0; //to see if guardian or student
+    $sName = $gName = $name = ""; //for storing names
+    
+//    ----------------------------------------------------------------------for student------------------------------------------------
+    $query1 = new \MongoDB\Driver\Query($filter, $options);
+    $document1 = $manager->executeQuery('ICT2103.school', $query1);
 
-$filter = [];
-$options = [];
+    foreach ($document1 as $doc) {
+      $row = (array)$doc;
+      $sName = $row["Name"];
+      $studentChk+=1;
+    }
+    
+    
+//    ----------------------------------------------------------------------for guardian------------------------------------------------
+    $query2 = new \MongoDB\Driver\Query($filter2, $options);
+    $document2 = $manager->executeQuery('ICT2103.school', $query2);
 
-$query = new MongoDB\Driver\Query($filter, $options);
-$cursor = $manager->executeQuery('ICT2103.school', $query);
+     foreach ($document2 as $doc) {
+      $row = (array)$doc;
+      $gName = $row["Name"];
+      $guardChk+=1;
+    }
+    
+    //if else to see if nric is student or guardian
+    
+    if($studentChk>$guardChk){
+        $name = $sName;
+    }else if($guardChk>$studentChk){
+        $name = $gName;
+    }else{
+        $name = "error";
+    }
+    
+    return $name;
+
+
 }
+
 ?>

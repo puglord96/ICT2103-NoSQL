@@ -12,8 +12,8 @@
     <form name="feedbackForm" method="post" action="process_feedback.php">
                         
     <div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" name="name" placeholder="Your name..">
+    <label for="nric">NRIC</label>
+    <input type="text" class="form-control" id="nric" name="nric" placeholder="Your NRIC..">
     </div>
                     
                     
