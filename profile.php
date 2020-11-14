@@ -42,7 +42,7 @@ foreach ($rows as $document) {
 $doc = (array)$document;
 
 foreach ($doc as $key => $value) {
-    if($key != "_id"){
+    if($key != "_id" && $key != "NRIC" && $key != "Password"){
         echo str_replace("_"," ",$key) . " : " . $value . "<br> ";
     }
 }

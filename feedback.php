@@ -34,7 +34,7 @@
     <label for="fbType">Feedback Type</label>
     <select  class="form-control" id="fbType" name="fbType">
     <option value="general feedback">General feedback</option>
-    <option value="bags">Bugs</option>
+    <option value="bugs">Bugs</option>
     <option value="question">Questions</option>
     </select>
     </div>
