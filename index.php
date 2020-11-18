@@ -13,6 +13,7 @@
     <label for="psleScore">Search by PSLE score:</label>
     <input type="number"  action="process_highest" class="form-control" id="psleScore" placeholder="Please Enter your PSLE Score" name="psleScore">
     <button id="searchHighest" >Search for highest school within cut off point</button>
+
     </div>
    
     <div id = "myDIV"> 
@@ -291,10 +292,7 @@
     <div id="form-table"></div>
     </body>
     
-<?php
-    // put your code here
-    include "footer.inc.php";
-?>   
+
 </html>
 
 <?php
@@ -480,54 +478,120 @@ function search(){
 function cop()
 {
     global $streambutton,$stream,$NoOfSchool_cop,$school_cop_2019_, $school_cop_2020_,$difference, $order, $errorMsg, $success;
+    $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
+    $command = new MongoDB\Driver\Command(['ping' => 1]);
+    try {
+            $cursor = $manager->executeCommand('admin', $command);
+        } 
+        catch(MongoDB\Driver\Exception $e) 
+        {
+            echo $e->getMessage(), "\n";
+            exit;
+        }
    
     if(isset($_POST["streambutton"]) && isset($_POST["stream"]) && isset($_POST["NoOfSchool_cop"]) && isset($_POST["order"])){
         
-        $filter =[
-                    'zone_code' => $area[0],
-                    'school_gender_code' => $schoolgender
-                        ];
+        $filter =[];
             
-        $sql = "select school_info.school_id, school_name, 
-                school_cop_2020.$stream AS '2020-cop' , 
-                school_cop_2019.$stream AS '2019-cop',
-                (school_cop_2020.$stream -  school_cop_2019.$stream) as difference
-                from school_info
-                inner join school_cop_2020 ON school_info.school_id = school_cop_2020.school_id 
-                inner join school_cop_2019 ON school_info.school_id = school_cop_2019.school_id
-                and school_cop_2019.$stream  is not null and school_cop_2020.$stream is not null
-                order by school_cop_2020.$stream $order
-                limit $NoOfSchool_cop;";
+//        $sql = "select school_info.school_id, school_name, 
+//                school_cop_2020.$stream AS '2020-cop' , 
+//                school_cop_2019.$stream AS '2019-cop',
+//                (school_cop_2020.$stream -  school_cop_2019.$stream) as difference
+//                from school_info
+//                inner join school_cop_2020 ON school_info.school_id = school_cop_2020.school_id 
+//                inner join school_cop_2019 ON school_info.school_id = school_cop_2019.school_id
+//                and school_cop_2019.$stream  is not null and school_cop_2020.$stream is not null
+//                order by school_cop_2020.$stream $order
+//                limit $NoOfSchool_cop;";
+        
+        if($order="asc"){
             $options =[
-                    'limit' => $NoOfSchool_cop
-            ];                   
-        // Execute the query
-        $result = $conn->query($sql);
-        if (!empty($result) && $result->num_rows > 0) {
-        // output data of each row
-                    echo '<br><br><br>';
-                    echo '<h2><u>RESULT FROM FAST SEARCH</u></H2>';
-                    echo '<br><br><br>';
-                    echo '<h3>You have selected:' ."$stream". '</h3>';
-                    echo '<table class="table table-bordered">';
-                    echo '<tr>';
-                    echo'<th>School ID</th>
-                        <th>School Name</th>
-                        <th>COP-2020</th>
-                        <th>COP-2019</th>
-                        <th>Difference in COP</th>';
-                    echo'<tr>';
-                    while($row = $result->fetch_assoc())  {
-                        echo '<tr>';
-                        echo '  <td><b>' . ($row->{'school_id'}) . '<b></td>';
-                        echo '  <td><b>' . ($row->{'school_name'}) . '<b></td>';
-                        echo '  <td><b>' . $row["2020-cop"] .  '<b></td>';
-                        echo '  <td><b>' . $row["2019-cop"] .  '<b></td>';
-                        echo '  <td><b>' . $row["difference"] .  '<b></td>';
-                        echo '  </tr> ';                
-                    }
-                echo'</table>';
+                    'limit' => $NoOfSchool_cop,
+                    'sort' => [$stream."_2020" => 1]
+            ];    
+        }else if ($order="desc"){
+            $options =[
+                    'limit' => $NoOfSchool_cop,
+                    'sort' => [$stream."_2020" => -1]
+            ];  
         }
+        
+        $query = new \MongoDB\Driver\Query($filter, $options);
+        $rows   = $manager->executeQuery('ICT2103.school', $query);
+                                   echo '<br><br><br>';
+                   echo '<h2><u>RESULT FROM FAST SEARCH</u></H2>';
+                   echo '<br><br><br>';
+                   echo '<h3>You have selected:' ."$stream". '</h3>';
+                   echo'<p>Showing '.$NoOfSchool_cop.' results</p>';
+                    echo '<table class="table table-bordered">';
+        
+        foreach ($rows as $document) {
+            $doc = (array)$document;
+            var_dump($doc);
+
+//            foreach ($doc as $key => $value) {
+//  
+//                    echo '<tr>';
+//                    echo'<th>School ID</th>
+//                        <th>School Name</th>
+//                        <th>COP-2020</th>
+//                        <th>COP-2019</th>';
+//                    echo'<tr>';
+//             
+//                        
+//                        if($key != "_id" && ($key == "school_id" || $key == "school_name" || $key == $stream."_2020" || $key == $stream."_2019" )){
+//                            echo '<tr>';
+//                            //echo $stream."_2020";
+//                            echo '  <td><b>' .$value. '<b></td>';
+//  
+//                            echo '  </tr> ';
+//                        }
+//                  
+////                    while($row = $result->fetch_assoc())  {
+////                        echo '<tr>';
+////                        echo '  <td><b>' . ($row->{'school_id'}) . '<b></td>';
+////                        echo '  <td><b>' . ($row->{'school_name'}) . '<b></td>';
+////                        echo '  <td><b>' . $row["2020-cop"] .  '<b></td>';
+////                        echo '  <td><b>' . $row["2019-cop"] .  '<b></td>';
+////                        echo '  <td><b>' . $row["difference"] .  '<b></td>';
+////                        echo '  </tr> ';                
+////                    }
+//              
+//  
+//}
+
+            
+        }
+     echo'</table>';                      
+        
+        
+        // Execute the query
+//        $result = $conn->query($sql);
+//        if (!empty($result) && $result->num_rows > 0) {
+//        // output data of each row
+//                    echo '<br><br><br>';
+//                    echo '<h2><u>RESULT FROM FAST SEARCH</u></H2>';
+//                    echo '<br><br><br>';
+//                    echo '<h3>You have selected:' ."$stream". '</h3>';
+//                    echo '<table class="table table-bordered">';
+//                    echo '<tr>';
+//                    echo'<th>School ID</th>
+//                        <th>School Name</th>
+//                        <th>COP-2020</th>
+//                        <th>COP-2019</th>
+//                        <th>Difference in COP</th>';
+//                    echo'<tr>';
+//                    while($row = $result->fetch_assoc())  {
+//                        echo '<tr>';
+//                        echo '  <td><b>' . ($row->{'school_id'}) . '<b></td>';
+//                        echo '  <td><b>' . ($row->{'school_name'}) . '<b></td>';
+//                        echo '  <td><b>' . $row["2020-cop"] .  '<b></td>';
+//                        echo '  <td><b>' . $row["2019-cop"] .  '<b></td>';
+//                        echo '  <td><b>' . $row["difference"] .  '<b></td>';
+//                        echo '  </tr> ';                
+//                    }
+//                echo'</table>';
+//        }
         
     }
     
