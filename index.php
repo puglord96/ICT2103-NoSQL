@@ -556,19 +556,19 @@ function transport()
             exit;
         }
     if(isset($_POST["transportbutton"]) && (isset($_POST["mrt"])) && (isset($_POST["bus"])) && (!empty($_POST["mrt"])) ||    (!empty($_POST["bus"]))){
-            $sql = "create view transportView AS select school_id, school_name, mrt, bus from school_info";
-        
-        
-            $sql = "select * from transportView
-                    where mrt like '%$mrt%'
-                    union 
-                    select * from transportView
-                    where mrt like '%$bus%'";
-    
-        
-        // Execute the query
-        $result = $conn->query($sql);
-        if (!empty($result) && $result->num_rows > 0) {
+        $bus = new MongoDB\BSON\Regex($bus);
+        $mrt = new MongoDB\BSON\Regex($mrt);
+        $filter = [
+            'bus_desc' => $bus,
+            'mrt_desc' => $mrt  
+                
+        ];
+        $options =[];        
+    // Execute the query
+        $query = new \MongoDB\Driver\Query($filter, $options);
+        $result   = $manager->executeQuery('ICT2103.school', $query);
+        $resultArray = $result -> toArray();          
+       
         // output data of each row
                     echo '<br><br><br>';
                     echo '<h2><u>RESULT FROM MRT and BUS</u></H2>';
@@ -582,29 +582,22 @@ function transport()
                         <th>School mrt</th>
                         <th>bus</th>';
                     echo'</tr>';
-                    while($row = $result->fetch_assoc())  {
+                    foreach($resultArray as $row)  {
                         echo '<tr>';
-                        echo '  <td><b>' . $row["school_id"] . '<b></td>';
-                        echo '  <td><b>' . $row["school_name"] . '<b></td>';
-                        echo '  <td><b>' . $row["mrt"] . '<b></td>';
-                        echo '  <td><b>' . $row["bus"] . '<b></td>';
+                        echo '  <td><b>' . ($row->{'school_id'}) . '<b></td>';
+                        echo '  <td><b>' . ($row->{'school_name'}) . '<b></td>';
+                        echo '  <td><b>' . ($row->{'mrt_desc'}) . '<b></td>';
+                        echo '  <td><b>' . ($row->{'bus_desc'}) . '<b></td>';
                         echo '  </tr> ';                
                     }
-                echo'</table>';
-        }
-        
-    }
-    
+                echo'</table>';       
+    }   
         else
         {
             $errorMsg = "Please select area, gender, and number of school";
             $success = false;
         }
-//        $result->free_result();
 }
-
-
-
 ?>
 
 <?php
