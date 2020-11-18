@@ -482,6 +482,7 @@ function cop()
     global $streambutton,$stream,$NoOfSchool_cop,$school_cop_2019_, $school_cop_2020_,$difference, $order, $errorMsg, $success;
    
     if(isset($_POST["streambutton"]) && isset($_POST["stream"]) && isset($_POST["NoOfSchool_cop"]) && isset($_POST["order"])){
+        
         $filter =[
                     'zone_code' => $area[0],
                     'school_gender_code' => $schoolgender
@@ -544,15 +545,16 @@ function cop()
 function transport()
 {
     global $transportbutton,$mrt,$bus,$errorMsg, $success;
-    $conn = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
-    // Check connection
-    if ($conn->connect_error)
-    {
-        $errorMsg = "Connection failed: " . $conn->connect_error;
-        $success = false;
-    }
-    else
-    {
+    $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
+    $command = new MongoDB\Driver\Command(['ping' => 1]);
+    try {
+            $cursor = $manager->executeCommand('admin', $command);
+        } 
+        catch(MongoDB\Driver\Exception $e) 
+        {
+            echo $e->getMessage(), "\n";
+            exit;
+        }
     if(isset($_POST["transportbutton"]) && (isset($_POST["mrt"])) && (isset($_POST["bus"])) && (!empty($_POST["mrt"])) ||    (!empty($_POST["bus"]))){
             $sql = "create view transportView AS select school_id, school_name, mrt, bus from school_info";
         
@@ -599,11 +601,6 @@ function transport()
             $success = false;
         }
 //        $result->free_result();
-    }
-    
-    
-   
-    $conn->close();
 }
 
 
