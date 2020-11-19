@@ -143,8 +143,6 @@ function getStudentInfo($nric){
     array_push($studentInfo, $row['PSLE_Aggregate_Score']);
   }
   
-  
-  //if else to see if nric is student or guardian
  
   
   return $studentInfo;
