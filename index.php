@@ -247,6 +247,9 @@ include "header.inc.php";
             <h3>Based on Transport</h3>
             <label for="mrt">Search by MRT Station:</label>
             <form name="transportform" action="index.php"  novalidate onsubmit="return validateForm()" method="post">
+                <?php
+                    mrtlist();
+                    ?>  
                 <input type ="text" name ="mrt" class="form-control" id="mrt" placeholder="Search school by MRT" >
                 <div class="form-group">
                     <label for="bus">Search by Bus Numbers:</label>
@@ -653,42 +656,37 @@ function transport() {
 
 global $sentToList;
 
-function schoollist() {
-    $conn = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
-    // Check connection
-    if ($conn->connect_error) {
-        $errorMsg = "Connection failed: " . $conn->connect_error;
-        $success = false;
-    } else {
-
-        $sql = "SELECT school_name FROM school_info order by school_name;";
-
-
-
-        // Execute the query
-        $result = $conn->query($sql);
-        if (!empty($result) && $result->num_rows > 0) {
-            // output data of each row
-            while ($row = $result->fetch_assoc()) {
-                $sentToList = array();
-                $sentToList[] = $row['school_name'];
-                $i = 0;
-                //echo $sentToList[$i];
-                echo '<option value=\'' . $sentToList[$i] . '\'>';
-                $i++;
-            }
-        } else {
-            $errorMsg = "Please select area, gender, and number of school";
-            $success = false;
+function schoollist()
+{
+    $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
+    $command = new MongoDB\Driver\Command(['ping' => 1]);
+    try {
+            $cursor = $manager->executeCommand('admin', $command);
+        } 
+        catch(MongoDB\Driver\Exception $e) 
+        {
+            echo $e->getMessage(), "\n";
+            exit;
         }
-//        $result->free_result();
-    }
-
-
-
-    $conn->close();
+    $filter = [];
+    $options =[];      
+    
+    // Execute the query
+        $query = new \MongoDB\Driver\Query($filter, $options);
+        $result   = $manager->executeQuery('ICT2103.school', $query);
+        $resultArray = $result -> toArray(); 
+        foreach($resultArray as $row)  {
+            $sentToList = array();
+            $sentToList[] = ($row->{'school_name'}); 
+            $i = 0;
+            //echo $sentToList[$i];
+            echo '<option value=\'' .$sentToList[$i].'\'>';
+            $i ++;
+        } 
+    
 }
 
+<<<<<<< Updated upstream
 function cca() {
 
 
@@ -743,7 +741,96 @@ function cca() {
             $success = false;
         }
 
+=======
+function cca(){
+    
+    
+    global $ccabutton,$schoolnamecca,$typeofcca,$errorMsg, $success;
+    $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
+    $command = new MongoDB\Driver\Command(['ping' => 1]);
+    try {
+            $cursor = $manager->executeCommand('admin', $command);
+        } 
+        catch(MongoDB\Driver\Exception $e) 
+        {
+            echo $e->getMessage(), "\n";
+            exit;
+        }
+    if(isset($_POST["ccabutton"]) && (isset($_POST["schoolnamecca"])) && (isset($_POST["typeofcca"])) && (!empty($_POST["schoolnamecca"])))
+    {
+        
+        $filter = [
+            'school_name' => $schoolnamecca,
+            'cca_grouping_desc' => $typeofcca  
+                
+        ];
+        $options =[]; 
+        $query = new \MongoDB\Driver\Query($filter, $options);
+        $result   = $manager->executeQuery('ICT2103.CCA', $query);
+        $resultArray = $result -> toArray();       
+        if(isset($resultArray)){
+        // output data of each row
+                    echo '<br><br><br>';
+                    echo '<h2><u>RESULT FROM CCA</u></H2>';
+                    echo '<h3>School Selected:' .$schoolnamecca. ' <br>Type of CCA Selected: '. $typeofcca .'</h3>';
+
+                    echo '<br><br><br>';
+                    echo '<table class= "table">';
+                    echo '<tr>';
+                    echo'<th>CCA Available</th>';
+                    echo'</tr>';
+                    foreach($resultArray as $row)  {
+                        echo '<tr>';
+                        echo '  <td>' . ($row->{'cca_name'}) . '</td>';
+                        echo '  </tr> ';                
+                    }
+                echo'</table>';
+        }
+        else {
+            echo "<script type='text/javascript'>alert('CCA is not available');</script>";
+        }
+        
+    }
+    
+        else
+        {
+            $errorMsg = "Please select area, gender, and number of school";
+            $success = false;
+        }
+//        $result->free_result();    
 }
+
+function mrtlist()
+{
+    $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
+    $command = new MongoDB\Driver\Command(['ping' => 1]);
+    try {
+            $cursor = $manager->executeCommand('admin', $command);
+        } 
+        catch(MongoDB\Driver\Exception $e) 
+        {
+            echo $e->getMessage(), "\n";
+            exit;
+        }
+    $filter = [];
+    $options =[];      
+    
+    // Execute the query
+        $query = new \MongoDB\Driver\Query($filter, $options);
+        $result   = $manager->executeQuery('ICT2103.school', $query);
+        $resultArray = $result -> toArray(); 
+        foreach($resultArray as $row)  {
+            $sentToList = array();
+            $sentToList[] = ($row->{'mrt_desc'}); 
+            $i = 0;
+            echo $sentToList[$i];
+            echo '<option value=\'' .$sentToList[$i].'\'>';
+            $i ++;
+        } 
+    
+>>>>>>> Stashed changes
+}
+
 ?>
 
 <?php
