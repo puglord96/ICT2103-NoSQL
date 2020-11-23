@@ -28,7 +28,7 @@
                     <?php 
                     if(isset($_SESSION["name"])  ){
                         if( basename($_SERVER['PHP_SELF'], '.php') != 'profile' ) {
-                        echo "<span class='navbar-text'>Welcome Back, <a href='profile.php'>".$_SESSION["name"]."</a<</span> <li><a href='logout.php'>Log Out</a></li>";
+                        echo "<span class='navbar-text'>Welcome Back, <a href='profile.php'>".$_SESSION["name"]."</a<</span> <li><a href='updateinfo.php'>Update my info</a></li> <li><a href='logout.php'>Log Out</a></li>";
                        
                             
                

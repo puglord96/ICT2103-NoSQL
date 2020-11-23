@@ -346,7 +346,7 @@ $filter = [
 $options = [];
 
 $query = new \MongoDB\Driver\Query($filter, $options);
-$rows   = $manager->executeQuery('ICT2103.school', $query);
+$rows   = $manager->executeQuery('ICT2103.user_info', $query);
 
 
 
@@ -412,13 +412,13 @@ $bulk->insert([
     'Parent_Guardian_Contact_Number' => $gcontact
     ]);
 
-$manager->executeBulkWrite('ICT2103.school', $bulk);
+$manager->executeBulkWrite('ICT2103.user_info', $bulk);
 
 $filter = [];
 $options = [];
 
 $query = new MongoDB\Driver\Query($filter, $options);
-$cursor = $manager->executeQuery('ICT2103.school', $query);
+$cursor = $manager->executeQuery('ICT2103.user_info', $query);
 
 
  

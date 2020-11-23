@@ -4,7 +4,7 @@
 include 'header.inc.php';
 
 
-$name = $nric = $pwd =  $errorMsg = "";
+$name = $nric = $pwd = $email =  $errorMsg = "";
 $recordCount =0;
 $success = true;
 
@@ -100,8 +100,10 @@ foreach ($rows as $document) {
   $recordCount++;
   $name = $doc["Name"];
   $nric = $doc["NRIC"];
+  $email = $doc["Email"];
   $_SESSION["name"] = $name;
   $_SESSION["nric"] = $nric; //store NRIC to session
+  $_SESSION["email"] = $email;
 }
 
 
