@@ -686,62 +686,9 @@ function schoollist()
     
 }
 
-<<<<<<< Updated upstream
-function cca() {
-
-
-    global $ccabutton, $schoolnamecca, $typeofcca, $errorMsg, $success;
-
-    // Check connection
-    $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
-    $command = new MongoDB\Driver\Command(['ping' => 1]);
-    try {
-        $cursor = $manager->executeCommand('admin', $command);
-    } catch (MongoDB\Driver\Exception $e) {
-        echo $e->getMessage(), "\n";
-        exit;
-    }
-    
-        if (isset($_POST["ccabutton"]) && (isset($_POST["schoolnamecca"])) && (isset($_POST["typeofcca"])) && (!empty($_POST["schoolnamecca"]))) {
-
-
-            $filter = [
-                "school_name"=>$schoolnamecca,
-                "cca_grouping_desc" =>$typeofcca
-                    ];
-            
-            $option = [];
-            
-            $query = new \MongoDB\Driver\Query($filter, $options);
-        $result = $manager->executeQuery('ICT2103.CCA', $query);
-        $resultArray = $result->toArray();
-            
 
 
 
-
-                echo '<br><br><br>';
-                echo '<h2><u>RESULT FROM CCA</u></H2>';
-                echo '<h3>School Selected:' . $schoolnamecca . ' <br>Type of CCA Selected: ' . $typeofcca . '</h3>';
-
-                echo '<br><br><br>';
-                echo '<table class= "table">';
-                echo '<tr>';
-                echo'<th>CCA Available</th>';
-                echo'</tr>';
-                foreach ($resultArray as $row) {
-                    echo '<tr>';
-                    echo '  <td>' . ($row->{'cca_name'}) . '</td>';
-                    echo '  </tr> ';
-                }
-                echo'</table>';
- 
-        } else {
-            $errorMsg = "Please select area, gender, and number of school";
-            $success = false;
-        }
-
-=======
 function cca(){
     
     
@@ -828,7 +775,6 @@ function mrtlist()
             $i ++;
         } 
     
->>>>>>> Stashed changes
 }
 
 ?>
