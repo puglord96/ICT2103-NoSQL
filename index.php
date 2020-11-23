@@ -3,17 +3,15 @@
 include "header.inc.php";
 ?>
 
-
 <div class="container">
     <h1>Search for School Information</h1>
     <h3>Information such as School name | Cut Off Points | Academic Stream</h3>
-    <form name="myForm" action="index.php"  novalidate onsubmit="return validateForm()" method="post">
-
+    <form name="psleScoreform" action="index.php"  novalidate onsubmit="return validateForm()" method="post">
         <h3>Based PSLE Score Aggregate</h3>      
         <div class="form-group">      
             <label for="psleScore">Search by PSLE score:</label>
             <input type="number"  action="process_highest" class="form-control" id="psleScore" placeholder="Please Enter your PSLE Score" name="psleScore">
-            <button id="searchHighest" >Search for highest school within cut off point</button>
+            <input type="submit" value = "Search for highest school within cut off point" name= "searchHighest" class="btn btn-default">
         </div>
     </form>
 
@@ -28,10 +26,7 @@ include "header.inc.php";
                 <label for="search">Search by School Name:</label>
                 <input list ="search" name ="search" class="form-control" id="browsers" placeholder="Search for basic school details" >
                 <datalist id="search">
-                    <?php
-                    schoollist();
-                    ?>    
-                    <!--   <option value="ADMIRALTY SECONDARY SCHOOL">
+                        <option value="ADMIRALTY SECONDARY SCHOOL">
                         <option value="AHMAD IBRAHIM SECONDARY SCHOOL">
                         <option value="ANDERSON SECONDARY SCHOOL">
                         <option value="ANG MO KIO SECONDARY SCHOOL">
@@ -235,7 +230,7 @@ include "header.inc.php";
                 </select>
             </div>
 
-            <input type="submit" value = "SSearch based on School name or Type of School & Area" name= "indexbutton" class="btn btn-default">     
+            <input type="submit" value = "Search based on School name or Type of School & Area" name= "indexbutton" class="btn btn-default">     
         </form>
 
         <br>
@@ -247,10 +242,92 @@ include "header.inc.php";
             <h3>Based on Transport</h3>
             <label for="mrt">Search by MRT Station:</label>
             <form name="transportform" action="index.php"  novalidate onsubmit="return validateForm()" method="post">
-                <?php
-                    mrtlist();
-                    ?>  
-                <input type ="text" name ="mrt" class="form-control" id="mrt" placeholder="Search school by MRT" >
+                <input list="searchmrt"  type="text" name ="mrt" class="form-control" id="browsers" placeholder="Search school by MRT" >
+                <datalist id="searchmrt">
+                    <option value="ALJUNIED MRT"> 
+                    <option value="ADMIRALTY MRT">
+                    <option value="ANG MO KIO MRT">
+                    <option value="BANGKIT LRT">    
+                    <option value="BOTANIC GARDENS MRT">    
+                    <option value="BUONA VISTA MRT">
+                    <option value="BUKIT BATOK MRT">
+                    <option value="BUKIT GOMBAK MRT"> 
+                    <option value="BUKIT PANJANG MRT">
+                    <option value="BUKIT PANJANG LRT">    
+                    <option value="BISHAN MRT">
+                    <option value="BARTLEY MRT">
+                    <option value="BEDOK RESERVOIR MRT">
+                    <option value="BEDOK MRT"
+                    <option value="BRADDELL MRT">
+                    <option value="BOON KENG MRT">
+                    <option value="BOON LAY MRT">
+                    <option value="BUANGKOK MRT">
+                    <option value="CALDECOTT MRT">
+                    <option value="CHINESE GARDEN MRT">
+                    <option value="CHINATOWN MRT">
+                    <option value="COVE LRT">   
+                    <option value="COMMONWEALTH MRT">    
+                    <option value="CLEMENTI MRT">    
+                    <option value="CASHEW MRT">
+                    <option value="CHOA CHU KANG MRT">   
+                    <option value="COMPASSVALE LRT">    
+                    <option value="DAKOTA MRT">
+                    <option value="DHOBY GHAUT MRT">    
+                    <option value="DOVER MRT">
+                    <option value="FARRER ROAD MRT">    
+                    <option value="HOUGANG MRT">
+                    <option value="HARBOURFRONT MRT">
+                    <option value="JELAPANG LRT">    
+                    <option value="JURONG EAST MRT">
+                    <option value="KANGKAR LRT">    
+                    <option value="KEMBANGAN MRT">
+                    <option value="KHATIB MRT">   
+                    <option value="KING ALBERT PARK MRT">    
+                    <option value="KOVAN MRT">   
+                    <option value="LAKESIDE MRT">
+                    <option value="LAYAR LRT">
+                    <option value="MARYMOUNT MRT">    
+                    <option value="MARSILING MRT"> 
+                    <option value="MATTAR MRT">  
+                    <option value="MERIDIAN LRT">      
+                    <option value="MOUNTBATTEN MRT">
+                    <option value="NEWTON MRT">    
+                    <option value="ONE-NORTH MRT">
+                    <option value="OUTRAM PARK MRT">     
+                    <option value="PASIR RIS MRT">
+                    <option value="PAYA LEBAR MRT">    
+                    <option value="PETIR LRT">  
+                    <option value="PHOENIX LRT">    
+                    <option value="POTONG PASIR MRT">
+                    <option value="PUNGGOL MRT">    
+                    <option value="RANGGUNG LRT">
+                    <option value="REDHILL MRT"> 
+                    <option value="RENJONG LRT">                     
+                    <option value="QUEENSTOWN MRT">
+                    <option value="SEMBAWANG MRT">    
+                    <option value="SENGKANG MRT">
+                    <option value="SENJA LRT">    
+                    <option value="SERANGOON MRT">
+                    <option value="SIMEI MRT"> 
+                    <option value="SIXTH AVENUE MRT">    
+                    <option value="STEVENS MRT">                  
+                    <option value="TAI SENG MRT">    
+                    <option value="TAMPINES MRT">  
+                    <option value="TAMPINES EAST MRT"> 
+                    <option value="TAMPINES WEST MRT">    
+                    <option value="TANAH MERAH MRT"> 
+                    <option value="TAN KAH KEE MRT">             
+                    <option value="TIONG BAHRU MRT">    
+                    <option value="TOA PAYOH MRT">     
+                    <option value="TONGKANG LRT">   
+                    <option value="WOODLEIGH MRT">
+                    <option value="WOODLANDS SOUTH MRT">
+                    <option value="WOODLANDS MRT">     
+                    <option value="YEW TEE MRT">
+                    <option value="YIO CHU KANG MRT">
+                    <option value="YISHUN MRT">    
+                </datalist>        
+                
                 <div class="form-group">
                     <label for="bus">Search by Bus Numbers:</label>
                     <input type ="text" name ="bus" class="form-control" id="bus" placeholder="Search school by Bus" >
@@ -268,15 +345,11 @@ include "header.inc.php";
             <label for="schoolnamecca">Search by School Name:</label>
             <form name="schoolnamecca" action="index.php"  novalidate onsubmit="return validateForm()" method="post">
                 <input list ="search" name ="schoolnamecca" class="form-control" id="browsers" placeholder="Search for basic school details" >
-                <datalist id="search">
-                    <?php
-                    schoollist();
-                    ?>
-                </datalist>
+                
 
                 <label for="typeofcca">Type of CCA:</label>
                 <select name="typeofcca" id="typeofcca">
-                    <option value="'VISUAL AND PERFORMING ARTS'">VISUAL AND PERFORMING ARTS</option>
+                    <option value="VISUAL AND PERFORMING ARTS">VISUAL AND PERFORMING ARTS</option>
                     <option value="UNIFORMED GROUPS">UNIFORMED GROUPS   </option>
                     <option value="PHYSICAL SPORTS">PHYSICAL SPORTS</option>
                     <option value="CLUBS AND SOCIETIES">CLUBS AND SOCIETIES</option>
@@ -362,6 +435,10 @@ if (isset($_POST["indexbutton"]) && (isset($_POST["area"])) && (isset($_POST["sc
     echo "school gender selected: $schoolgender<br>";
     echo "no.of.school selected: $NoOfSchool<br>";
     searchSchGenderbyArea();
+} else if (isset($_POST["searchHighest"]) && isset($_POST["psleScore"])){
+    $psleScore = $_POST["psleScore"];
+    psleScoreSearch();
+    
 } else if (isset($_POST["indexbutton"]) && isset($_POST["search"]) && isset($_POST["NoOfSchool"])) {
     $search = $_POST["search"];
     $NoOfSchool = $_POST["NoOfSchool"];
@@ -388,6 +465,138 @@ if (isset($_POST["indexbutton"]) && (isset($_POST["area"])) && (isset($_POST["sc
     echo"Remember to choose an area";
 }
 
+ function psleScoreSearch() {   
+    
+    $success = true;
+    $errorMsg = "";
+    $minExpress = $minNa = "";
+    $stream = "";
+    $highestSchInfTbl = '';
+    $schoolIDs = '';
+    $schoolInfoSql = $schoolInfoRes =  '';
+    $cop = array();
+    $psleScore;
+    if (empty($_POST["psleScore"])) {
+            $errorMsg .= "you need to fill up PSLE Score";
+            $success = false;
+        } 
+    else {
+            $psleScore = $_POST["psleScore"];
+            $psle = (int)$psleScore;
+            
+
+            $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
+            $command = new MongoDB\Driver\Command(['ping' => 1]);
+            try {
+                $cursor = $manager->executeCommand('admin', $command);
+            } catch (MongoDB\Driver\Exception $e) {
+                echo $e->getMessage(), "\n";
+                exit;
+            }
+            $filter = [
+                'Express_2019' => ['$lt' => $psle],  
+            ];
+            $options = [];
+            // Execute the query
+            $query = new \MongoDB\Driver\Query($filter, $options);
+            $result = $manager->executeQuery('ICT2103.COP_2019', $query);
+            $minExpressResult = $result->toArray();
+            
+            $filter = [
+                'NA_2019' => ['$lt' => $psle],  
+            ];
+            $options = [];
+            // Execute the query
+            $query = new \MongoDB\Driver\Query($filter, $options);
+            $result = $manager->executeQuery('ICT2103.COP_2019', $query);
+            $minNaResult = $result->toArray();
+            
+            $filter = [
+                'NT_2019' => ['$lt' => $psle],  
+            ];
+            $options = [];
+            // Execute the query
+            $query = new \MongoDB\Driver\Query($filter, $options);
+            $result = $manager->executeQuery('ICT2103.COP_2019', $query);
+            $minNtResult = $result->toArray();
+            //-----------------------------------------------------------------------------------------------------------------------express            
+            if($minExpressResult != null){
+                
+                echo '<h3>YOU ARE ELIGIBLE FOR: Express Stream</h3>';
+                        $stream = "express";
+                        echo "<br>";
+                        echo '<table class = "table">';
+                        echo '<br><br><br><br>';
+                        echo '<h3><u>RESULT FOR SCHOOL Express Stream</u></H3>';
+                        echo '<tr>';
+                        echo'<th>School Name</th>
+                             <th>Express COP </th>';
+
+                        echo'<tr>';
+                        foreach ($minExpressResult as $row) {
+                            echo '<tr>';
+                            echo '  <td><b>' . ($row->{'school_name'}) . '<b></td>';
+                            echo '  <td><b>' . ($row->{'Express_2019'}) . '<b></td>';
+                            echo '  </tr> ';
+                        }
+                        echo'</table>';
+                        echo "<br>";
+                        echo "<br>";
+            }
+            
+           
+            //-----------------------------------------------------------------------------------------------------------------------na
+            if($minNaResult != null){
+                echo '<h3>YOU ARE ELIGIBLE FOR: Normal Acadamic Stream</h3>';
+                        $stream = "express";
+                        echo "<br>";
+                        echo '<table class = "table">';
+                        echo '<br><br><br><br>';
+                        echo '<h3><u>RESULT FOR SCHOOL Normal Acadamic Stream</u></H3>';
+                        echo '<tr>';
+                        echo'<th>School Name</th>
+                             <th>Normal Acadamic COP </th>';
+
+                        echo'<tr>';
+                        foreach ($minExpressResult as $row) {
+                            echo '<tr>';
+                            echo '  <td><b>' . ($row->{'school_name'}) . '<b></td>';
+                            echo '  <td><b>' . ($row->{'NA_2019'}) . '<b></td>';
+                            echo '  </tr> ';
+                        }
+                        echo'</table>';
+                        echo "<br>";
+                        echo "<br>";
+            }
+            
+            
+    //-----------------------------------------------------------------------------------------------------------------------nt        
+            if($minNtResult != null){
+                echo '<h3>YOU ARE ELIGIBLE FOR: Normal Technical Stream</h3>';
+                        $stream = "express";
+                        echo "<br>";
+                        echo '<table class = "table">';
+                        echo '<br><br><br><br>';
+                        echo '<h3><u>RESULT FOR SCHOOL Normal Technical Stream</u></H3>';
+                        echo '<tr>';
+                        echo'<th>School Name</th>
+                             <th>Normal Technical COP </th>';
+
+                        echo'<tr>';
+                        foreach ($minNtResult as $row) {
+                            echo '<tr>';
+                            echo '  <td><b>' . ($row->{'school_name'}) . '<b></td>';
+                            echo '  <td><b>' . ($row->{'NT_2019'}) . '<b></td>';
+                            echo '  </tr> ';
+                        }
+                        echo'</table>';
+            }
+            
+    }       
+        
+ }
+
+
 function searchSchGenderbyArea() {
     global $area, $schoolgender, $NoOfSchool, $url_address, $errorMsg, $success;
     $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
@@ -412,8 +621,7 @@ function searchSchGenderbyArea() {
             $query = new \MongoDB\Driver\Query($filter, $options);
             $result = $manager->executeQuery('ICT2103.school', $query);
             $resultArray = $result->toArray();
-            //var_dump($result->toArray());
-            //  if (!empty($resultArray)) {
+           
             // output data of each row
             echo '<br><br><br>';
             echo '<h2><u>RESULT FROM SEARCH BY GENDER</u></H2>';
@@ -656,37 +864,6 @@ function transport() {
 
 global $sentToList;
 
-function schoollist()
-{
-    $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
-    $command = new MongoDB\Driver\Command(['ping' => 1]);
-    try {
-            $cursor = $manager->executeCommand('admin', $command);
-        } 
-        catch(MongoDB\Driver\Exception $e) 
-        {
-            echo $e->getMessage(), "\n";
-            exit;
-        }
-    $filter = [];
-    $options =[];      
-    
-    // Execute the query
-        $query = new \MongoDB\Driver\Query($filter, $options);
-        $result   = $manager->executeQuery('ICT2103.school', $query);
-        $resultArray = $result -> toArray(); 
-        foreach($resultArray as $row)  {
-            $sentToList = array();
-            $sentToList[] = ($row->{'school_name'}); 
-            $i = 0;
-            //echo $sentToList[$i];
-            echo '<option value=\'' .$sentToList[$i].'\'>';
-            $i ++;
-        } 
-    
-}
-
-
 
 
 function cca(){
@@ -747,35 +924,6 @@ function cca(){
 //        $result->free_result();    
 }
 
-function mrtlist()
-{
-    $manager = new MongoDB\Driver\Manager('mongodb+srv://kinseong:sceptile101@cluster.dqjim.mongodb.net/ICT2103?retryWrites=true&w=majority');
-    $command = new MongoDB\Driver\Command(['ping' => 1]);
-    try {
-            $cursor = $manager->executeCommand('admin', $command);
-        } 
-        catch(MongoDB\Driver\Exception $e) 
-        {
-            echo $e->getMessage(), "\n";
-            exit;
-        }
-    $filter = [];
-    $options =[];      
-    
-    // Execute the query
-        $query = new \MongoDB\Driver\Query($filter, $options);
-        $result   = $manager->executeQuery('ICT2103.school', $query);
-        $resultArray = $result -> toArray(); 
-        foreach($resultArray as $row)  {
-            $sentToList = array();
-            $sentToList[] = ($row->{'mrt_desc'}); 
-            $i = 0;
-            echo $sentToList[$i];
-            echo '<option value=\'' .$sentToList[$i].'\'>';
-            $i ++;
-        } 
-    
-}
 
 ?>
 
