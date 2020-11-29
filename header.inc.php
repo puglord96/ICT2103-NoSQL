@@ -22,6 +22,7 @@
                 <li><a href="index.php">Home</a></li>
                 <li><a href="posting.php">Posting</a></li>
                 <li><a href="feedback.php">Feedback</a></li>
+                <li><a href="DataAnalytics.php">Analytics</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">

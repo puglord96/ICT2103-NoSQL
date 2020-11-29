@@ -90,7 +90,7 @@ $filter = [
 $options = [];
 
 $query = new \MongoDB\Driver\Query($filter, $options);
-$rows   = $manager->executeQuery('ICT2103.school', $query);
+$rows   = $manager->executeQuery('ICT2103.user_info', $query);
 
 
 

@@ -101,7 +101,7 @@ function saveFB($nric, $email, $fbType, $fb){
         'feedback_text'=>$fb
         ]);
 
-    $manager->executeBulkWrite('ICT2103.school', $bulk);
+    $manager->executeBulkWrite('ICT2103.feedback', $bulk);
 
 }
 
@@ -127,7 +127,7 @@ function nric_Chk($nric){
     
 //    ----------------------------------------------------------------------for student------------------------------------------------
     $query1 = new \MongoDB\Driver\Query($filter, $options);
-    $document1 = $manager->executeQuery('ICT2103.school', $query1);
+    $document1 = $manager->executeQuery('ICT2103.user_info', $query1);
 
     foreach ($document1 as $doc) {
       $row = (array)$doc;
@@ -135,28 +135,7 @@ function nric_Chk($nric){
       $studentChk+=1;
     }
     
-    
-//    ----------------------------------------------------------------------for guardian------------------------------------------------
-    $query2 = new \MongoDB\Driver\Query($filter2, $options);
-    $document2 = $manager->executeQuery('ICT2103.school', $query2);
-
-     foreach ($document2 as $doc) {
-      $row = (array)$doc;
-      $gName = $row["Name"];
-      $guardChk+=1;
-    }
-    
-    //if else to see if nric is student or guardian
-    
-    if($studentChk>$guardChk){
-        $name = $sName;
-    }else if($guardChk>$studentChk){
-        $name = $gName;
-    }else{
-        $name = "error";
-    }
-    
-    return $name;
+   
 
 
 }
