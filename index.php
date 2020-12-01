@@ -184,7 +184,7 @@ include "header.inc.php";
                         <option value="YUSOF ISHAK SECONDARY SCHOOL">
                         <option value="YUYING SECONDARY SCHOOL">
                         <option value="ZHENGHUA SECONDARY SCHOOL">
-                        <option value="ZHONGHUA SECONDARY SCHOOL">-->
+                        <option value="ZHONGHUA SECONDARY SCHOOL">
 
                 </datalist>
             </div>
