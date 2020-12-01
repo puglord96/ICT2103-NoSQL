@@ -5,13 +5,10 @@
         <meta charset="UTF-8"><title>posting page</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--<link rel="stylesheet" href ="js/posting.js"></link>-->
-        <!--<script src="js/posting.js"></script>-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">        
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-        <!--<script defer src="js/posting.js" type="text/javascript"></script>-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     </head>
 <?php
@@ -70,44 +67,6 @@ function showStudentPrevSelection(){
       array_push($postingID, $row['posting_id']);
       $findschool_idarray = $row['ranking'];
     }
-//    
-//    
-//    if (count($postingID) > 0){//check if psoting already exists
-////    ----------------------------------------------------------------------Query for student info------------------------------------------------
-//  $query1 = new \MongoDB\Driver\Query($filter, $options);
-//  $document = $manager->executeQuery('ICT2103.school', $query1);
-//
-//  foreach ($document as $doc) {
-//    $row = (array)$doc;
-//    array_push($studentInfo, $row['Name']);
-//    array_push($studentInfo, $row['Previous_Primary_School']);
-//    array_push($studentInfo, $row['Year_of_PSLE']);
-//     array_push($studentInfo, $row["Nationality"]);
-//    array_push($studentInfo, $row['PSLE_Aggregate_Score']);
-//  }
-  
-//      global $findschool_idarray, $errorMsg, $success;
-//    // Create connection
-//    $conn = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
-//    //Check connection
-//    if ($conn->connect_error)
-//    {
-//        $errorMsg = "Connection failed: " . $conn->connect_error;
-//        $success = false;
-//    }
-//    else
-//    {
-//        $sqlfindschool_id = "SELECT  school_id 
-//                            FROM school_posting sp, ranking r
-//                            where sp.posting_id =r.posting_id 
-//                            and student_NRIC = '".$_SESSION["student_nric"]."'";
-//        $findschool_idresult = $conn->query($sqlfindschool_id);
-//        while($row = mysqli_fetch_assoc($findschool_idresult)) {
-//            $findschool_idarray[] = $row['school_id']; 
-//        }
-//        
-//    }
-//     $conn->close();
 }
 
 ?>
@@ -125,34 +84,40 @@ function showStudentPrevSelection(){
     <h4>Please Enter 4-Digit Option Code </h4>
     <div class="form-group">
     <label for="firstchoice">First Choice:</label>
-    <input type="number" class="form-control" id="firstchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[0];?>" name="firstchoice">
+    <input type="number" class="form-control" id="firstchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[0];?>" name="firstchoice">
     </div>
     
     <div class="form-group">
     <label for="secondchoice">Second Choice:</label>
-    <input type="number" class="form-control" id="secondchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[1];?>" name="secondchoice">
+    <input type="number" class="form-control" id="secondchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[1];?>" name="secondchoice">
     </div>
     
     <div class="form-group">
     <label for="thirdchoice">Third Choice:</label>
-    <input type="number" class="form-control" id="thirdchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[2];?>" name="thirdchoice">
+    <input type="number" class="form-control" id="thirdchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[2];?>" name="thirdchoice">
     </div>
     
     
     <div class="form-group">
     <label for="fourthchoice">Fourth Choice:</label>
-    <input type="number" class="form-control" id="fourthchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[3];?>" name="fourthchoice">
+    <input type="number" class="form-control" id="fourthchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[3];?>" name="fourthchoice">
     </div>
     
     
     <div class="form-group">
     <label for="fifthchoice">Fifth Choice:</label>
-    <input type="number" class="form-control" id="fifthchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[4];?>" name="fifthchoice">
+    <input type="number" class="form-control" id="fifthchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[4];?>" name="fifthchoice">
     </div>
     
     <div class="form-group">
     <label for="sixthchoice">Sixth Choice:</label>
-    <input type="number" class="form-control" id="sixthchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[5];?>" name="sixthchoice">
+    <input type="number" class="form-control" id="sixthchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[5];?>" name="sixthchoice">
     </div>
     
     
@@ -314,6 +279,8 @@ function getStudentInfo($nric){
               ]);
           
               $manager->executeBulkWrite('ICT2103.posting', $bulk);
+              
+              echo "<script>alert('sucessfully submitted posting!');</script>";
           }else{// if there have been postings in database then assign the next highest posting id for this entry
               $bulk = new MongoDB\Driver\BulkWrite;
               $bulk->insert([
@@ -324,6 +291,7 @@ function getStudentInfo($nric){
               ]);
           
               $manager->executeBulkWrite('ICT2103.posting', $bulk);
+              echo "<script>alert('sucessfully submitted posting!');</script>";
           }
 
         }
@@ -396,7 +364,7 @@ function updatePosting(){
     
     if (count($postingID) > 0){//check if psoting already exists
 //      ----------------------------------------------------------update statement-----------------------------
-        $ranking = ['ranking' => [$_POST["firstchoice"],$_POST["secondchoice"],$_POST["thirdchoice"],$_POST["fourthchoice"],$_POST["fifthchoice"],$_POST["sixthchoice"]]];
+        $ranking = [$_POST["firstchoice"],$_POST["secondchoice"],$_POST["thirdchoice"],$_POST["fourthchoice"],$_POST["fifthchoice"],$_POST["sixthchoice"]];
         echo "<script>alert('updated successfully');</script>";
         $bulk = new MongoDB\Driver\BulkWrite;
         $bulk->update(
@@ -491,21 +459,19 @@ function viewresult(){
     $postingID = [];
     $query1 = new \MongoDB\Driver\Query($filter, $options);
     $document = $manager->executeQuery('ICT2103.posting', $query1);
+    $checkExist = false;
 
     foreach ($document as $doc) {
       $row = (array)$doc;
       $choices = $row['ranking'];
+      $checkExist = true;
     }
-    $filter2  = ['school_id' => ['$in' => [(int)$choices[0],(int)$choices[1],(int)$choices[2],(int)$choices[3],(int)$choices[4],(int)$choices[5]]] , 'school_name' => ['$exists' => true]];
-    $query2 = new \MongoDB\Driver\Query($filter2, $options);
-    $document2 = $manager->executeQuery('ICT2103.school', $query2);
-    
-    
-//    $checkArray = $document->toArray();
+    if ($checkExist){
+        $filter2  = ['school_id' => ['$in' => [(int)$choices[0],(int)$choices[1],(int)$choices[2],(int)$choices[3],(int)$choices[4],(int)$choices[5]]] , 'school_name' => ['$exists' => true]];
+        $query2 = new \MongoDB\Driver\Query($filter2, $options);
+        $document2 = $manager->executeQuery('ICT2103.school', $query2);
 
-//    if (sizeof($checkArray) == 0){
-//        echo "<script type='text/javascript'>alert('Please fill up all 6 slots and submit a form in order to view submission!'); </script>";
-//    }else{
+
         echo '<br><br><br>';
         echo '<h2><u>Your Selection for 6 chosen schools</u></H2>';
         echo '<table class= "table">';
@@ -514,7 +480,7 @@ function viewresult(){
             <th>School ID You Have Selected:</th>
             <th>School Name</th>';
         echo'</tr>';
-        
+
         foreach ($document2 as $doc) {
             $row = (array)$doc;
             echo '  <tr>';
@@ -525,10 +491,12 @@ function viewresult(){
             $choiceNum++;
 
           }
-          
+
         echo'</table>';
     
-        
+    }else{
+        echo "<script>alert('you have not subitted before!');</script>";
+    }
     
 }
 
@@ -556,10 +524,7 @@ function validCheck($array){
         $document = $manager->executeQuery('ICT2103.school', $query1);
         $checkArray = [];
         $checkArray = $document->toArray();
-        
-//        echo "<script>alert('this is the document : ". sizeof($checkArray) ." ') window.location.href='http://localhost/2103project/posting.php;</script>";
-        
-//        return sizeof($checkArray);
+
         if (sizeof($checkArray) == 0){
             return false;
         }
