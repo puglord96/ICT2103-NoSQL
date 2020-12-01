@@ -125,34 +125,40 @@ function showStudentPrevSelection(){
     <h4>Please Enter 4-Digit Option Code </h4>
     <div class="form-group">
     <label for="firstchoice">First Choice:</label>
-    <input type="number" class="form-control" id="firstchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[0];?>" name="firstchoice">
+    <input type="number" class="form-control" id="firstchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[0];?>" name="firstchoice">
     </div>
     
     <div class="form-group">
     <label for="secondchoice">Second Choice:</label>
-    <input type="number" class="form-control" id="secondchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[1];?>" name="secondchoice">
+    <input type="number" class="form-control" id="secondchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[1];?>" name="secondchoice">
     </div>
     
     <div class="form-group">
     <label for="thirdchoice">Third Choice:</label>
-    <input type="number" class="form-control" id="thirdchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[2];?>" name="thirdchoice">
+    <input type="number" class="form-control" id="thirdchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[2];?>" name="thirdchoice">
     </div>
     
     
     <div class="form-group">
     <label for="fourthchoice">Fourth Choice:</label>
-    <input type="number" class="form-control" id="fourthchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[3];?>" name="fourthchoice">
+    <input type="number" class="form-control" id="fourthchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[3];?>" name="fourthchoice">
     </div>
     
     
     <div class="form-group">
     <label for="fifthchoice">Fifth Choice:</label>
-    <input type="number" class="form-control" id="fifthchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[4];?>" name="fifthchoice">
+    <input type="number" class="form-control" id="fifthchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[4];?>" name="fifthchoice">
     </div>
     
     <div class="form-group">
     <label for="sixthchoice">Sixth Choice:</label>
-    <input type="number" class="form-control" id="sixthchoice" placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[5];?>" name="sixthchoice">
+    <input type="number" class="form-control" id="sixthchoice" 
+           placeholder="<?php showStudentPrevSelection(); echo "Previously submitted for First Choice:". $findschool_idarray[5];?>" name="sixthchoice">
     </div>
     
     
@@ -396,7 +402,7 @@ function updatePosting(){
     
     if (count($postingID) > 0){//check if psoting already exists
 //      ----------------------------------------------------------update statement-----------------------------
-        $ranking = ['ranking' => [$_POST["firstchoice"],$_POST["secondchoice"],$_POST["thirdchoice"],$_POST["fourthchoice"],$_POST["fifthchoice"],$_POST["sixthchoice"]]];
+        $ranking = [$_POST["firstchoice"],$_POST["secondchoice"],$_POST["thirdchoice"],$_POST["fourthchoice"],$_POST["fifthchoice"],$_POST["sixthchoice"]];
         echo "<script>alert('updated successfully');</script>";
         $bulk = new MongoDB\Driver\BulkWrite;
         $bulk->update(
@@ -491,44 +497,49 @@ function viewresult(){
     $postingID = [];
     $query1 = new \MongoDB\Driver\Query($filter, $options);
     $document = $manager->executeQuery('ICT2103.posting', $query1);
+    $checkExist = false;
 
     foreach ($document as $doc) {
       $row = (array)$doc;
       $choices = $row['ranking'];
+      $checkExist = true;
     }
-    $filter2  = ['school_id' => ['$in' => [(int)$choices[0],(int)$choices[1],(int)$choices[2],(int)$choices[3],(int)$choices[4],(int)$choices[5]]] , 'school_name' => ['$exists' => true]];
-    $query2 = new \MongoDB\Driver\Query($filter2, $options);
-    $document2 = $manager->executeQuery('ICT2103.school', $query2);
-    
-    
-//    $checkArray = $document->toArray();
+    if ($checkExist){
+        $filter2  = ['school_id' => ['$in' => [(int)$choices[0],(int)$choices[1],(int)$choices[2],(int)$choices[3],(int)$choices[4],(int)$choices[5]]] , 'school_name' => ['$exists' => true]];
+        $query2 = new \MongoDB\Driver\Query($filter2, $options);
+        $document2 = $manager->executeQuery('ICT2103.school', $query2);
 
-//    if (sizeof($checkArray) == 0){
-//        echo "<script type='text/javascript'>alert('Please fill up all 6 slots and submit a form in order to view submission!'); </script>";
-//    }else{
-        echo '<br><br><br>';
-        echo '<h2><u>Your Selection for 6 chosen schools</u></H2>';
-        echo '<table class= "table">';
-        echo '<tr>';
-        echo'<th>Choice</th>
-            <th>School ID You Have Selected:</th>
-            <th>School Name</th>';
-        echo'</tr>';
-        
-        foreach ($document2 as $doc) {
-            $row = (array)$doc;
-            echo '  <tr>';
-            echo '  <td><b>' . $choiceNum . '<b></td>';
-            echo '  <td><b>' . $row["school_id"] . '<b></td>';
-            echo '  <td><b>' . $row["school_name"] . '<b></td>';
-            echo '  </tr> ';                
-            $choiceNum++;
 
-          }
-          
-        echo'</table>';
+    //    $checkArray = $document->toArray();
+
+    //    if (sizeof($checkArray) == 0){
+    //        echo "<script type='text/javascript'>alert('Please fill up all 6 slots and submit a form in order to view submission!'); </script>";
+    //    }else{
+            echo '<br><br><br>';
+            echo '<h2><u>Your Selection for 6 chosen schools</u></H2>';
+            echo '<table class= "table">';
+            echo '<tr>';
+            echo'<th>Choice</th>
+                <th>School ID You Have Selected:</th>
+                <th>School Name</th>';
+            echo'</tr>';
+
+            foreach ($document2 as $doc) {
+                $row = (array)$doc;
+                echo '  <tr>';
+                echo '  <td><b>' . $choiceNum . '<b></td>';
+                echo '  <td><b>' . $row["school_id"] . '<b></td>';
+                echo '  <td><b>' . $row["school_name"] . '<b></td>';
+                echo '  </tr> ';                
+                $choiceNum++;
+
+              }
+
+            echo'</table>';
     
-        
+    }else{
+        echo "<script>alert('you have not subitted before!');</script>";
+    }
     
 }
 
